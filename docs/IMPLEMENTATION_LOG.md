@@ -133,3 +133,43 @@ Results:
   - 4 test files passed.
   - 16 tests passed.
 - `pnpm typecheck` passed.
+
+### Event 1412 Fixture Audit
+
+Saved exactly one IFSC event fixture:
+
+```sh
+pnpm save:fixture -- --url "https://ifsc.results.info/event/1412/" --out event-1412.html
+```
+
+Created:
+
+- `docs/DATA_SOURCE_AUDIT.md`
+
+Updated:
+
+- `src/cli/saveFixture.ts`
+- `src/cli/__tests__/saveFixture.test.ts`
+
+Notes:
+
+- The first attempt exposed that pnpm passes a leading `--` delimiter through to the CLI. The CLI argument parser now tolerates that delimiter.
+- `src/sources/ifsc-results/fixtures/event-1412.html` was saved and inspected locally, then removed rather than committed because it is only a Vue app shell and is not needed by tests or documentation.
+- The saved HTML appears to be a Vue app shell rather than a server-rendered result page.
+- No competition metadata, event labels, round rows, athlete names, athlete profile links, country rows, ranks, or raw scores appear directly in the saved HTML.
+- The fixture references client-side modules such as `event_store`, `event_phase_store`, `participant_store`, `athletes_store`, `ascent_store`, and `country_store`.
+- No linked assets were fetched during the audit, and no parser logic was implemented.
+
+Verification:
+
+```sh
+pnpm test
+pnpm typecheck
+```
+
+Results:
+
+- `pnpm test` passed:
+  - 4 test files passed.
+  - 17 tests passed.
+- `pnpm typecheck` passed.
