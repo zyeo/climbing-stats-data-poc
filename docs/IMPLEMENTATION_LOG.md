@@ -93,3 +93,43 @@ Results:
 - Created the public GitHub repository:
   - `https://github.com/zyeo/climbing-stats-data-poc`
 - Pushed local `main` to `origin/main`.
+
+### Task 002: Save IFSC Fixture
+
+Implemented a safe, manual fixture-saving workflow for IFSC Results pages.
+
+Created or updated:
+
+- `src/cli/saveFixture.ts`
+- `src/sources/ifsc-results/fetchPage.ts`
+- `src/cli/__tests__/saveFixture.test.ts`
+- `src/sources/ifsc-results/__tests__/fetchPage.test.ts`
+- `docs/SCRAPING_POLICY.md`
+- `tasks/002-save-ifsc-fixture.md`
+
+Behavior added:
+
+- `pnpm save:fixture -- --url <url> [--out <fixture-name.html>] [--force]`
+- Saves raw HTML into `src/sources/ifsc-results/fixtures/`.
+- Fetches only one explicit URL per command.
+- Rejects non-IFSC URLs.
+- Rejects unsafe output filenames and paths.
+- Refuses to overwrite existing fixture files unless `--force` is passed.
+- Sends a clear user-agent string.
+- Throws helpful errors for non-200 responses and detectable non-HTML responses.
+
+No scraping, parsing, crawling, image fetching, database, frontend, or ML code was added.
+
+Verification:
+
+```sh
+pnpm test
+pnpm typecheck
+```
+
+Results:
+
+- `pnpm test` passed:
+  - 4 test files passed.
+  - 16 tests passed.
+- `pnpm typecheck` passed.
