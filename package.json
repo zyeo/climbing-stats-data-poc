@@ -1,0 +1,23 @@
+{
+  "name": "climbing-stats-data-poc",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "save:fixture": "tsx src/cli/saveFixture.ts",
+    "scrape:event": "tsx src/cli/scrapeEvent.ts",
+    "scrape:rankings": "tsx src/cli/scrapeRankings.ts"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  }
+}
