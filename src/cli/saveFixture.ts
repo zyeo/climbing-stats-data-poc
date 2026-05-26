@@ -64,7 +64,9 @@ export function parseSaveFixtureArgs(args: string[]): SaveFixtureOptions {
   for (let index = 0; index < args.length; index += 1) {
     const arg = args[index];
 
-    if (arg === "--url") {
+    if (arg === "--") {
+      continue;
+    } else if (arg === "--url") {
       url = args[index + 1];
       index += 1;
     } else if (arg === "--out") {

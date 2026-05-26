@@ -54,6 +54,16 @@ describe("parseSaveFixtureArgs", () => {
       force: false
     });
   });
+
+  it("allows a leading pnpm argument delimiter", () => {
+    const options = parseSaveFixtureArgs(["--", "--url", "https://ifsc.results.info/event/1412/", "--out", "event-1412.html"]);
+
+    expect(options).toEqual({
+      url: "https://ifsc.results.info/event/1412/",
+      out: "event-1412.html",
+      force: false
+    });
+  });
 });
 
 describe("saveFixture", () => {
