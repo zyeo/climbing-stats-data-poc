@@ -56,3 +56,46 @@ No linked scripts or module assets were fetched during this audit.
 - Event result data may be loaded client-side after the initial HTML response.
 - Before implementing parser logic, investigate whether IFSC exposes the event data in a stable first-party endpoint used by the app, while still following the no-crawl, low-volume policy.
 - Do not parse third-party analytics sites or fetch athlete images.
+
+## 2026-05-29: IFSC Event 1412 JSON Endpoints
+
+### Fixtures
+
+- Event metadata URL: `https://ifsc.results.info/api/v1/events/1412`
+- Event metadata fixture: `src/sources/ifsc-results/fixtures/event-1412.json`
+- Boulder Men general result URL: `https://ifsc.results.info/api/v1/events/1412/result/3`
+- Boulder Men general result fixture: `src/sources/ifsc-results/fixtures/event-1412-result-3.json`
+
+Both JSON endpoints worked without cookies or CSRF tokens when requested with JSON headers and a referer from the public event page.
+
+Example request shape:
+
+```sh
+curl 'https://ifsc.results.info/api/v1/events/1412' \
+  -H 'accept: application/json' \
+  -H 'referer: https://ifsc.results.info/event/1412/general/boulder' \
+  -H 'user-agent: climbing-stats-data-poc/0.1'
+```
+
+### Endpoint Roles
+
+`/api/v1/events/1412` appears to provide event-level metadata. It includes fields for event identity, location, dates, disciplines, discipline/category lists, rounds, logos, and related event URLs.
+
+`/api/v1/events/1412/result/3` appears to provide Boulder Men general ranking/result data. It includes:
+
+- `event`
+- `dcat`
+- `status`
+- `category_rounds`
+- `ranking`
+- `ranking_as_of`
+
+The `result/3` fixture contains result-oriented data including athlete IDs, athlete names, countries, ranks, round scores, round ranks, and ascent details such as route IDs, points, tops, zones, and tries.
+
+### Current Inferences
+
+- The raw event HTML is a Vue app shell, but first-party JSON endpoints expose the useful source data.
+- `/api/v1/events/1412` is the event metadata fixture.
+- `/api/v1/events/1412/result/3` is the Boulder Men general result/ranking fixture.
+- The meaning of `result/3` is inferred from the response `dcat` value (`BOULDER Men`) and should be confirmed by comparing other discipline/category URLs later.
+- Parser implementation should wait until JSON fixture shapes are documented and tests are written against cached fixtures.

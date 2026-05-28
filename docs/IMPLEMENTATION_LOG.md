@@ -173,3 +173,37 @@ Results:
   - 4 test files passed.
   - 17 tests passed.
 - `pnpm typecheck` passed.
+
+### Event 1412 JSON Endpoint Fixtures
+
+Moved two discovered first-party IFSC JSON responses into the fixture directory:
+
+- `src/sources/ifsc-results/fixtures/event-1412.json`
+- `src/sources/ifsc-results/fixtures/event-1412-result-3.json`
+
+Updated:
+
+- `docs/DATA_SOURCE_AUDIT.md`
+- `docs/IMPLEMENTATION_LOG.md`
+
+Notes:
+
+- `/api/v1/events/1412` appears to be event metadata.
+- `/api/v1/events/1412/result/3` appears to be Boulder Men general ranking/result data.
+- Both endpoints worked without cookies or CSRF tokens when requested with JSON headers and a referer from the public event page.
+- `result/3` includes `category_rounds`, `ranking`, athlete IDs, countries, ranks, round scores, and ascent details.
+- No parser implementation was added.
+
+Verification:
+
+```sh
+pnpm test
+pnpm typecheck
+```
+
+Results:
+
+- `pnpm test` passed:
+  - 4 test files passed.
+  - 17 tests passed.
+- `pnpm typecheck` passed.
