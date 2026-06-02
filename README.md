@@ -19,13 +19,14 @@ This is not the final climbing stats app. It is a small TypeScript workspace for
 pnpm test
 pnpm typecheck
 pnpm save:fixture
+pnpm save:json-fixture
 pnpm scrape:event
 pnpm scrape:rankings
 ```
 
 ## Current Status
 
-The initial repo contains placeholder schemas, parsers, normalizers, CLI entry points, and tests. Real scraping and parsing are intentionally deferred until a small, manually saved fixture exists.
+The repo contains placeholder schemas, parsers, normalizers, CLI entry points, and tests. The useful IFSC result data discovered so far is exposed through first-party JSON endpoints rather than the raw event HTML shell.
 
 ## Workflow
 

@@ -99,3 +99,18 @@ The `result/3` fixture contains result-oriented data including athlete IDs, athl
 - `/api/v1/events/1412/result/3` is the Boulder Men general result/ranking fixture.
 - The meaning of `result/3` is inferred from the response `dcat` value (`BOULDER Men`) and should be confirmed by comparing other discipline/category URLs later.
 - Parser implementation should wait until JSON fixture shapes are documented and tests are written against cached fixtures.
+
+### Fixture Workflow Update
+
+Use `pnpm save:json-fixture` for future first-party IFSC JSON API fixtures. Prefer this over saving raw event-page HTML when the useful data comes from `/api/...` endpoints.
+
+Example:
+
+```sh
+pnpm save:json-fixture -- \
+  --url "https://ifsc.results.info/api/v1/events/1412/result/3" \
+  --out event-1412-result-3.json \
+  --referer "https://ifsc.results.info/event/1412/general/boulder"
+```
+
+Do not pass cookies, CSRF tokens, auth headers, or copied private browser headers.

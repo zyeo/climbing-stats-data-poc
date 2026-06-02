@@ -7,6 +7,7 @@
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
     "save:fixture": "tsx src/cli/saveFixture.ts",
+    "save:json-fixture": "tsx src/cli/saveJsonFixture.ts",
     "scrape:event": "tsx src/cli/scrapeEvent.ts",
     "scrape:rankings": "tsx src/cli/scrapeRankings.ts"
   },

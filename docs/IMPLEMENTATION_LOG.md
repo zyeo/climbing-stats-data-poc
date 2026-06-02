@@ -207,3 +207,46 @@ Results:
   - 4 test files passed.
   - 17 tests passed.
 - `pnpm typecheck` passed.
+
+### JSON Fixture Saver
+
+Added a safe manual JSON fixture-saving workflow for first-party IFSC API endpoints.
+
+Created or updated:
+
+- `src/cli/saveJsonFixture.ts`
+- `src/cli/__tests__/saveJsonFixture.test.ts`
+- `src/sources/ifsc-results/fetchPage.ts`
+- `src/sources/ifsc-results/__tests__/fetchPage.test.ts`
+- `package.json`
+- `README.md`
+- `docs/SCRAPING_POLICY.md`
+- `docs/DATA_SOURCE_AUDIT.md`
+
+Behavior added:
+
+- `pnpm save:json-fixture -- --url <https://ifsc.results.info/api/...> [--out <fixture-name.json>] [--referer <https://ifsc.results.info/...>] [--force]`
+- Saves pretty-printed JSON into `src/sources/ifsc-results/fixtures/`.
+- Fetches only one explicit API URL per command.
+- Rejects non-IFSC URLs and IFSC URLs outside `/api/`.
+- Rejects unsafe output filenames and paths.
+- Saves `.json` files only.
+- Refuses to overwrite existing fixture files unless `--force` is passed.
+- Sends a clear user-agent string and `Accept: application/json`.
+- Does not accept cookies, CSRF tokens, auth headers, or arbitrary copied browser headers.
+
+No parser implementation was added.
+
+Verification:
+
+```sh
+pnpm test
+pnpm typecheck
+```
+
+Results:
+
+- `pnpm test` passed:
+  - 5 test files passed.
+  - 33 tests passed.
+- `pnpm typecheck` passed.

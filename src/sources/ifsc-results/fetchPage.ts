@@ -26,6 +26,16 @@ export function parseIfscResultsUrl(url: string): URL {
   return parsedUrl;
 }
 
+export function parseIfscApiUrl(url: string): URL {
+  const parsedUrl = parseIfscResultsUrl(url);
+
+  if (!parsedUrl.pathname.startsWith("/api/")) {
+    throw new Error("Only IFSC Results API URLs under /api/ are supported for JSON fixtures.");
+  }
+
+  return parsedUrl;
+}
+
 export async function fetchIfscResultsPage(url: string): Promise<string> {
   const parsedUrl = parseIfscResultsUrl(url);
   const response = await fetch(parsedUrl, {
@@ -47,4 +57,43 @@ export async function fetchIfscResultsPage(url: string): Promise<string> {
   }
 
   return response.text();
+}
+
+export interface FetchIfscResultsJsonOptions {
+  referer?: string;
+}
+
+export async function fetchIfscResultsJson(url: string, options: FetchIfscResultsJsonOptions = {}): Promise<unknown> {
+  const parsedUrl = parseIfscApiUrl(url);
+  const headers: Record<string, string> = {
+    "user-agent": IFSC_RESULTS_USER_AGENT,
+    accept: "application/json"
+  };
+
+  if (options.referer) {
+    headers.referer = parseIfscResultsUrl(options.referer).href;
+  }
+
+  const response = await fetch(parsedUrl, {
+    headers,
+    redirect: "error"
+  });
+
+  if (response.status !== 200) {
+    throw new Error(`Failed to fetch ${parsedUrl.href}: ${response.status} ${response.statusText}`);
+  }
+
+  const contentType = response.headers.get("content-type");
+
+  if (contentType && !contentType.toLowerCase().includes("application/json")) {
+    throw new Error(`Expected JSON from ${parsedUrl.href}, received content-type: ${contentType}`);
+  }
+
+  const body = await response.text();
+
+  try {
+    return JSON.parse(body);
+  } catch {
+    throw new Error(`Expected valid JSON from ${parsedUrl.href}.`);
+  }
 }
