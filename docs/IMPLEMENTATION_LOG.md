@@ -297,3 +297,50 @@ Results:
   - 6 test files passed.
   - 37 tests passed.
 - `pnpm typecheck` passed.
+
+### Initial Normalization Tests
+
+Started fixture-backed normalization tests that turn parsed IFSC JSON into minimal app schema records.
+
+Created:
+
+- `src/normalize/normalizeEvent.ts`
+- `src/normalize/normalizeRound.ts`
+- `src/normalize/__tests__/normalizeIfscEventJson.test.ts`
+
+Updated:
+
+- `docs/SCHEMA.md`
+- `docs/IMPLEMENTATION_LOG.md`
+
+Coverage added:
+
+- Competition metadata from `event-1412.json`.
+- Boulder Men event context from `event-1412-result-3.json`.
+- Category rounds from `category_rounds`.
+- First-ranked athlete from `ranking`.
+- A minimal result record using the athlete's final-round score.
+- Boulder problem-level result records for the first-ranked athlete's final-round ascents.
+
+Added bouldering-only detailed performance schema:
+
+- `src/schemas/boulderProblemResult.ts`
+- `src/normalize/normalizeBoulderProblemResult.ts`
+
+Updated parser output:
+
+- `parseEventResultJson` now preserves ascent details needed for bouldering problem-level normalization.
+
+Verification:
+
+```sh
+pnpm test
+pnpm typecheck
+```
+
+Results:
+
+- `pnpm test` passed:
+  - 7 test files passed.
+  - 38 tests passed.
+- `pnpm typecheck` passed.

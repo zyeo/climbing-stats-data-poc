@@ -46,7 +46,20 @@ const eventResultSchema = z.object({
           rank: z.number().nullable().optional(),
           score: z.string().nullable().optional(),
           starting_group: z.string().nullable().optional(),
-          ascents: z.array(z.unknown()).optional()
+          ascents: z.array(
+            z.object({
+              route_id: z.number().nullable().optional(),
+              route_name: z.string().nullable().optional(),
+              points: z.number().nullable().optional(),
+              top: z.boolean().nullable().optional(),
+              top_tries: z.number().nullable().optional(),
+              zone: z.boolean().nullable().optional(),
+              zone_tries: z.number().nullable().optional(),
+              low_zone: z.boolean().nullable().optional(),
+              low_zone_tries: z.number().nullable().optional(),
+              status: z.string().nullable().optional()
+            }).passthrough()
+          ).optional()
         }).passthrough()
       )
     }).passthrough()
@@ -95,6 +108,18 @@ export interface IfscParsedEventResult {
       score?: string;
       startingGroup?: string;
       ascentCount: number;
+      ascents: Array<{
+        sourceRouteId?: number;
+        routeName?: string;
+        points?: number;
+        top?: boolean;
+        topTries?: number;
+        zone?: boolean;
+        zoneTries?: number;
+        lowZone?: boolean;
+        lowZoneTries?: number;
+        status?: string;
+      }>;
     }>;
   }>;
   rankingAsOf?: string;
@@ -169,7 +194,19 @@ export function parseEventResultJson(json: string): IfscParsedEventResult {
         rank: round.rank ?? undefined,
         score: round.score ?? undefined,
         startingGroup: round.starting_group ?? undefined,
-        ascentCount: round.ascents?.length ?? 0
+        ascentCount: round.ascents?.length ?? 0,
+        ascents: round.ascents?.map((ascent) => ({
+          sourceRouteId: ascent.route_id ?? undefined,
+          routeName: ascent.route_name ?? undefined,
+          points: ascent.points ?? undefined,
+          top: ascent.top ?? undefined,
+          topTries: ascent.top_tries ?? undefined,
+          zone: ascent.zone ?? undefined,
+          zoneTries: ascent.zone_tries ?? undefined,
+          lowZone: ascent.low_zone ?? undefined,
+          lowZoneTries: ascent.low_zone_tries ?? undefined,
+          status: ascent.status ?? undefined
+        })) ?? []
       }))
     })),
     rankingAsOf: optionalString(input.ranking_as_of)

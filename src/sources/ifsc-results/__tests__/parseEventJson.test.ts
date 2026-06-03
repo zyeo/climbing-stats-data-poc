@@ -84,7 +84,8 @@ describe("parseEventResultJson", () => {
           rank: 5,
           score: "94.6",
           startingGroup: "Group B",
-          ascentCount: 5
+          ascentCount: 5,
+          ascents: expect.any(Array)
         },
         {
           sourceCategoryRoundId: 10119,
@@ -92,7 +93,8 @@ describe("parseEventResultJson", () => {
           rank: 5,
           score: "54.1",
           startingGroup: undefined,
-          ascentCount: 4
+          ascentCount: 4,
+          ascents: expect.any(Array)
         },
         {
           sourceCategoryRoundId: 10121,
@@ -100,7 +102,57 @@ describe("parseEventResultJson", () => {
           rank: 1,
           score: "69.8",
           startingGroup: undefined,
-          ascentCount: 4
+          ascentCount: 4,
+          ascents: [
+            {
+              sourceRouteId: 17071,
+              routeName: "1",
+              points: 9.8,
+              top: false,
+              topTries: 5,
+              zone: true,
+              zoneTries: 3,
+              lowZone: undefined,
+              lowZoneTries: undefined,
+              status: "locked"
+            },
+            {
+              sourceRouteId: 17072,
+              routeName: "2",
+              points: 10,
+              top: false,
+              topTries: 3,
+              zone: true,
+              zoneTries: 1,
+              lowZone: undefined,
+              lowZoneTries: undefined,
+              status: "locked"
+            },
+            {
+              sourceRouteId: 17073,
+              routeName: "3",
+              points: 25,
+              top: true,
+              topTries: 1,
+              zone: true,
+              zoneTries: 1,
+              lowZone: undefined,
+              lowZoneTries: undefined,
+              status: "locked"
+            },
+            {
+              sourceRouteId: 17074,
+              routeName: "4",
+              points: 25,
+              top: true,
+              topTries: 1,
+              zone: true,
+              zoneTries: 1,
+              lowZone: undefined,
+              lowZoneTries: undefined,
+              status: "locked"
+            }
+          ]
         }
       ]
     });
