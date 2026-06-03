@@ -27,7 +27,9 @@ pnpm scrape:rankings
 
 ## Current Status
 
-The repo contains placeholder schemas, parsers, normalizers, CLI entry points, and tests. The useful IFSC result data discovered so far is exposed through first-party JSON endpoints rather than the raw event HTML shell.
+The repo now has a fixture-backed bouldering proof-of-concept for IFSC first-party JSON endpoints. It can save manual JSON fixtures, parse bouldering result data, normalize shared boulder/problem records and athlete result rows, and verify the pipeline with cached fixture tests only.
+
+See `docs/DATA_MODEL.md` for the current normalized bouldering relationships.
 
 ## Workflow
 

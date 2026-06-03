@@ -1,6 +1,6 @@
 # Task 004: Normalize Event Data
 
-Status: Done for the bouldering proof-of-concept first pass
+Status: Done for the current bouldering proof-of-concept scope
 
 ## Goal
 
@@ -21,6 +21,8 @@ Full-fixture tests now normalize every Boulder Men/Women ranking row from the cu
 `RoundResult.startOrder` is now part of the normalized schema when a round-level fixture provides it. Boulder scoring settings remain source-specific and are not normalized yet.
 
 `BoulderProblem` is now a normalized shared record for each route/problem within a round. `BoulderProblemResult` rows link to it with `boulderProblemId`, which supports boulder-level analysis across athletes.
+
+`docs/DATA_MODEL.md` now documents the current normalized bouldering relationships and records that bouldering retrieval, parsing, and normalization are sufficiently proven for this POC unless a specific new bouldering data-shape question appears.
 
 ## Remaining Out Of Scope
 

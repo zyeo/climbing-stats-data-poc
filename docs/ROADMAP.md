@@ -41,9 +41,15 @@
 
 - Decide whether to add round-local normalized fields such as boulder scoring settings.
 - Use normalized `BoulderProblem` records for boulder-level analysis across athletes.
+- Keep avoiding crawl/discovery automation until the source model is stable.
+- Status: Bouldering data retrieval, parsing, and normalization are sufficiently proven for the current POC scope.
+
+## Optional Future POC Questions
+
+- Add a new bouldering fixture only if it tests a new format, season, or edge case.
+- Normalize boulder scoring settings only if an analysis workflow needs cross-format scoring comparisons.
 - Add one lead fixture only when ready to design a separate lead-specific shape.
 - Add one speed fixture only when ready to design a separate speed-specific shape.
-- Keep avoiding crawl/discovery automation until the source model is stable.
 
 ## Later Phases
 

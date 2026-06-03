@@ -2,6 +2,8 @@
 
 Normalized schemas live in `src/schemas`.
 
+See `docs/DATA_MODEL.md` for the relationship-level overview of the current bouldering model.
+
 All normalized records should preserve source traceability where relevant:
 
 - `source`

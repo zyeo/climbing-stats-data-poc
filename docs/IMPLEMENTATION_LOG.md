@@ -621,3 +621,43 @@ Results:
   - 11 test files passed.
   - 63 tests passed.
 - `pnpm typecheck` passed.
+
+### Bouldering Data Model Overview
+
+Added a durable model overview and bouldering POC conclusion.
+
+Created:
+
+- `docs/DATA_MODEL.md`
+
+Updated:
+
+- `README.md`
+- `docs/ROADMAP.md`
+- `docs/SCHEMA.md`
+- `tasks/004-normalize-event-data.md`
+- `docs/IMPLEMENTATION_LOG.md`
+
+Notes:
+
+- `docs/DATA_MODEL.md` documents the current normalized bouldering relationships:
+  - `Competition -> Event -> Round -> BoulderProblem`
+  - `Athlete -> Result -> RoundResult`
+  - `BoulderProblem -> BoulderProblemResult`
+- The document records current fixture coverage and the source-only fields that should not be normalized yet.
+- The roadmap now marks bouldering retrieval, parsing, and normalization as sufficiently proven for the current POC scope.
+- No new scraping, parsing, normalization, analytics, database, frontend, lead, or speed code was added in this step.
+
+Verification:
+
+```sh
+pnpm test
+pnpm typecheck
+```
+
+Results:
+
+- `pnpm test` passed:
+  - 11 test files passed.
+  - 63 tests passed.
+- `pnpm typecheck` passed.
