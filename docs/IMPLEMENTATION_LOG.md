@@ -348,3 +348,35 @@ Results:
   - 7 test files passed.
   - 38 tests passed.
 - `pnpm typecheck` passed.
+
+### Full Bouldering Fixture Normalization
+
+Added a source-specific full bouldering normalizer:
+
+- `src/normalize/normalizeIfscEventResult.ts`
+- `src/normalize/__tests__/normalizeIfscFullEventResult.test.ts`
+
+Coverage:
+
+- Normalizes every Boulder Men ranking row from event 1412.
+- Normalizes every Boulder Men ranking row from event 1478.
+- Validates expected counts for athletes, event results, round results, and boulder problem results.
+- Covers known fixture edge cases:
+  - Event 1412 has two unranked/DNS event results.
+  - Event 1412 has `lowZone` absent after source `null`.
+  - Event 1478 has boolean `lowZone` values.
+- Rejects non-bouldering parsed result data.
+
+Verification:
+
+```sh
+pnpm test
+pnpm typecheck
+```
+
+Results:
+
+- `pnpm test` passed:
+  - 8 test files passed.
+  - 42 tests passed.
+- `pnpm typecheck` passed.

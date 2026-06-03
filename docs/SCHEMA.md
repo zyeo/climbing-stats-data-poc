@@ -43,3 +43,17 @@ The first detailed performance schema is bouldering-only.
 Lead and speed-specific performance details are intentionally deferred until real fixtures and tests justify those schema decisions.
 
 `RoundResult` represents one athlete's rank and score within one round. It bridges the event-level `Result` record and the bouldering problem-level records.
+
+## Full Fixture Normalization
+
+`normalizeIfscBoulderingEventResult` currently converts a parsed bouldering event result into arrays of normalized records:
+
+- `competition`
+- `event`
+- `rounds`
+- `athletes`
+- `results`
+- `roundResults`
+- `boulderProblemResults`
+
+Fixture-backed tests cover all ranking rows from event 1412 and event 1478. This is still bouldering-only; lead and speed remain out of scope until separate fixtures justify their schema design.
