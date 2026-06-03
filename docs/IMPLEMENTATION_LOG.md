@@ -250,3 +250,50 @@ Results:
   - 5 test files passed.
   - 33 tests passed.
 - `pnpm typecheck` passed.
+
+## 2026-06-02
+
+### Event 1478 Comparison Fixture And Initial JSON Parser Tests
+
+Fetched event 1478 metadata using the JSON fixture saver:
+
+```sh
+pnpm save:json-fixture -- --url "https://ifsc.results.info/api/v1/events/1478" --out event-1478.json --referer "https://ifsc.results.info/event/1478/general/boulder"
+```
+
+Created or updated fixtures:
+
+- `src/sources/ifsc-results/fixtures/event-1478.json`
+- `src/sources/ifsc-results/fixtures/event-1478-result-3.json`
+
+Created parser code and fixture-based tests:
+
+- `src/sources/ifsc-results/parseEventJson.ts`
+- `src/sources/ifsc-results/__tests__/parseEventJson.test.ts`
+
+Updated:
+
+- `docs/DATA_SOURCE_AUDIT.md`
+- `docs/IMPLEMENTATION_LOG.md`
+
+Notes:
+
+- Event 1478 is now documented as a comparison fixture for checking whether JSON endpoint structure is consistent across events.
+- The initial parser tests use committed JSON fixtures, not live network requests.
+- Parser expectations were chosen by inspecting stable fixture facts once and encoding them in tests.
+- The first parser pass showed that some ranking rows can have `rank: null`, so parsed result rankings allow missing ranks.
+- No normalization code was added in this step.
+
+Verification:
+
+```sh
+pnpm test
+pnpm typecheck
+```
+
+Results:
+
+- `pnpm test` passed:
+  - 6 test files passed.
+  - 37 tests passed.
+- `pnpm typecheck` passed.

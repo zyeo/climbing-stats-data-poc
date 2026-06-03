@@ -114,3 +114,31 @@ pnpm save:json-fixture -- \
 ```
 
 Do not pass cookies, CSRF tokens, auth headers, or copied private browser headers.
+
+## 2026-06-02: Event 1478 Comparison Fixtures
+
+### Fixtures
+
+- Event metadata URL: `https://ifsc.results.info/api/v1/events/1478`
+- Event metadata fixture: `src/sources/ifsc-results/fixtures/event-1478.json`
+- Boulder Men general result fixture: `src/sources/ifsc-results/fixtures/event-1478-result-3.json`
+
+Metadata fetch command:
+
+```sh
+pnpm save:json-fixture -- \
+  --url "https://ifsc.results.info/api/v1/events/1478" \
+  --out event-1478.json \
+  --referer "https://ifsc.results.info/event/1478/general/boulder"
+```
+
+### Comparison Notes
+
+Event 1478 is useful as a second fixture because it has the same broad JSON endpoint roles as event 1412 while differing in event metadata and result size.
+
+- Event 1412 metadata: `IFSC World Cup Innsbruck 2025`, Boulder and Lead, 4 discipline/category entries.
+- Event 1478 metadata: `World Climbing Series Bern 2026`, Boulder only, 2 discipline/category entries.
+- Event 1412 `result/3`: `BOULDER Men`, 3 category rounds, 112 ranking rows.
+- Event 1478 `result/3`: `BOULDER Men`, 3 category rounds, 78 ranking rows.
+
+The comparison supports the current assumption that `/api/v1/events/:eventId` provides event metadata, while `/api/v1/events/:eventId/result/3` provides Boulder Men general ranking/result data for these examples. The exact meaning of `result/3` is still inferred and should be confirmed with additional discipline/category comparisons.
