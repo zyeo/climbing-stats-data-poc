@@ -44,6 +44,13 @@
 - Keep avoiding crawl/discovery automation until the source model is stable.
 - Status: Bouldering data retrieval, parsing, and normalization are sufficiently proven for the current POC scope.
 
+## Phase 7: POC Checkpoint
+
+- Summarize what the POC has proven.
+- Document limitations and reuse guidance.
+- Decide whether to pause this repo or extract an ingestion package later.
+- Status: Done in `docs/POC_CHECKPOINT.md`.
+
 ## Optional Future POC Questions
 
 - Add a new bouldering fixture only if it tests a new format, season, or edge case.

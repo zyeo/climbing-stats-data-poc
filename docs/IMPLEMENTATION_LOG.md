@@ -661,3 +661,37 @@ Results:
   - 11 test files passed.
   - 63 tests passed.
 - `pnpm typecheck` passed.
+
+### POC Checkpoint
+
+Added a durable proof-of-concept checkpoint.
+
+Created:
+
+- `docs/POC_CHECKPOINT.md`
+
+Updated:
+
+- `README.md`
+- `docs/ROADMAP.md`
+- `docs/IMPLEMENTATION_LOG.md`
+
+Notes:
+
+- The checkpoint records that bouldering retrieval, fixture caching, parsing, normalization, validation, testing, and documentation are sufficiently proven for the current POC scope.
+- It documents what the future app should reuse, what it should not inherit blindly, known limitations, and open decisions.
+- It recommends pausing feature work in this repo unless a specific new data-shape question appears.
+
+Verification:
+
+```sh
+pnpm test
+pnpm typecheck
+```
+
+Results:
+
+- `pnpm test` passed:
+  - 11 test files passed.
+  - 63 tests passed.
+- `pnpm typecheck` passed.

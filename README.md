@@ -31,6 +31,8 @@ The repo now has a fixture-backed bouldering proof-of-concept for IFSC first-par
 
 See `docs/DATA_MODEL.md` for the current normalized bouldering relationships.
 
+See `docs/POC_CHECKPOINT.md` for the current POC conclusion and recommended pause point.
+
 ## Workflow
 
 Before coding, read `AGENTS.md`, the relevant docs in `docs/`, and the current task in `tasks/`. Keep changes small and update `docs/IMPLEMENTATION_LOG.md` after meaningful work.
