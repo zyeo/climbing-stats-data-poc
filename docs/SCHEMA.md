@@ -22,6 +22,7 @@ Current app-facing records covered by tests:
 - Category rounds from `category_rounds`.
 - The first-ranked athlete from `ranking`.
 - A minimal event result record using the athlete's final-round score.
+- Round result records using the athlete's per-round scores.
 - Boulder problem-level results from the athlete's final-round `ascents`.
 
 These tests intentionally keep the schemas small while preserving source traceability fields.
@@ -40,3 +41,5 @@ The first detailed performance schema is bouldering-only.
 - Links back to normalized result, athlete, event, and round records.
 
 Lead and speed-specific performance details are intentionally deferred until real fixtures and tests justify those schema decisions.
+
+`RoundResult` represents one athlete's rank and score within one round. It bridges the event-level `Result` record and the bouldering problem-level records.

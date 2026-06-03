@@ -321,11 +321,15 @@ Coverage added:
 - First-ranked athlete from `ranking`.
 - A minimal result record using the athlete's final-round score.
 - Boulder problem-level result records for the first-ranked athlete's final-round ascents.
+- Round-level result records for the first-ranked athlete's Qualification, Semi-final, and Final scores.
+- Representative normalization coverage for event 1478 in addition to event 1412.
 
 Added bouldering-only detailed performance schema:
 
 - `src/schemas/boulderProblemResult.ts`
+- `src/schemas/roundResult.ts`
 - `src/normalize/normalizeBoulderProblemResult.ts`
+- `src/normalize/normalizeRoundResult.ts`
 
 Updated parser output:
 

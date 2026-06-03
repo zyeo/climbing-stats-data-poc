@@ -14,4 +14,4 @@ Normalize parsed IFSC event data into app-facing Zod schemas.
 
 ## Update
 
-Initial fixture-backed normalization tests now cover event 1412 metadata and Boulder Men result data. The first pass validates minimal Competition, Event, Round, Athlete, Result, and bouldering-only BoulderProblemResult records with source traceability fields preserved.
+Initial fixture-backed normalization tests now cover event 1412 and event 1478 metadata plus Boulder Men result data. The first pass validates minimal Competition, Event, Round, Athlete, Result, RoundResult, and bouldering-only BoulderProblemResult records with source traceability fields preserved.
