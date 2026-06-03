@@ -5,6 +5,7 @@
 - Create TypeScript project structure.
 - Add placeholder schemas, parsers, normalizers, CLI commands, and tests.
 - Document scraping policy and workflow.
+- Status: Done.
 
 ## Phase 2: Save One Fixture
 
@@ -12,21 +13,31 @@
 - Fetch it once with `save:fixture`.
 - Save the raw HTML to the fixtures directory.
 - Record source URL and date.
+- Status: Superseded by JSON endpoint discovery. The raw HTML event page was a Vue app shell, so useful result data now comes from first-party JSON fixtures.
 
-## Phase 3: Parse Event Page
+## Phase 3: Parse IFSC JSON Fixtures
 
-- Write failing tests against the cached fixture.
-- Parse minimal event metadata.
+- Write failing tests against cached JSON fixtures.
+- Parse minimal event metadata and bouldering result data.
 - Validate assumptions in docs.
+- Status: Done for event metadata and Boulder Men result fixtures.
 
-## Phase 4: Normalize Event Data
+## Phase 4: Normalize Bouldering Event Data
 
 - Map source-specific event data into normalized schemas.
 - Preserve source identifiers and source URLs.
 - Add Zod validation tests.
+- Status: Done for Boulder Men result fixtures from events 1412 and 1478.
 
-## Phase 5: Parse Rankings
+## Phase 5: Expand Bouldering Coverage
 
-- Save a small rankings fixture.
-- Parse minimal ranking rows.
-- Normalize and validate ranking records.
+- Add more manually selected bouldering fixtures only when they test a new shape or edge case.
+- Compare Men/Women result views.
+- Confirm the meaning of `/result/3` by inspecting other result URLs.
+- Keep tests fixture-based and avoid live network requests.
+
+## Later Phases
+
+- Design lead-specific parsing and normalization only after saving lead fixtures.
+- Design speed-specific parsing and normalization only after saving speed fixtures.
+- Defer crawling, database, frontend, and prediction work.
