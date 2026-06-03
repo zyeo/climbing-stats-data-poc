@@ -1,6 +1,6 @@
 import { readFile } from "node:fs/promises";
 import { describe, expect, it } from "vitest";
-import { parseEventMetadataJson, parseEventResultJson } from "../parseEventJson.js";
+import { parseCategoryRoundResultsJson, parseEventMetadataJson, parseEventResultJson } from "../parseEventJson.js";
 
 async function readFixture(name: string): Promise<string> {
   return readFile(new URL(`../fixtures/${name}`, import.meta.url), "utf8");
@@ -183,5 +183,113 @@ describe("parseEventResultJson", () => {
         }
       ]
     });
+  });
+});
+
+describe("parseCategoryRoundResultsJson", () => {
+  it("parses a single Women Boulder final-round result fixture", async () => {
+    const parsed = parseCategoryRoundResultsJson(await readFixture("category-round-10668-results.json"));
+
+    expect(parsed).toMatchObject({
+      sourceCategoryRoundId: 10668,
+      sourceEventId: 1478,
+      sourceDisciplineCategoryId: 7,
+      eventName: "World Climbing Series Bern 2026",
+      discipline: "boulder",
+      category: "Women",
+      roundName: "Final",
+      status: "finished",
+      boulderPointsSettings: {
+        pointsPerZone: 10,
+        pointsPerTop: 25,
+        pointsPerLowZone: undefined,
+        useLowZone: false,
+        fallDeduction: 0.1
+      }
+    });
+    expect(parsed.routes).toEqual([
+      { sourceRouteId: 18764, routeName: "1" },
+      { sourceRouteId: 18765, routeName: "2" },
+      { sourceRouteId: 18766, routeName: "3" },
+      { sourceRouteId: 18767, routeName: "4" }
+    ]);
+    expect(parsed.rankings).toHaveLength(8);
+    expect(parsed.rankings[0]).toMatchObject({
+      sourceAthleteId: 2501,
+      bibNumber: "106",
+      name: "MACKENZIE Oceania",
+      firstName: "Oceania",
+      lastName: "MACKENZIE",
+      country: "AUS",
+      rank: 1,
+      score: "74.5",
+      startOrder: 2
+    });
+    expect(parsed.rankings[0]?.ascents).toEqual([
+      {
+        sourceRouteId: 18764,
+        routeName: "1",
+        points: 24.7,
+        top: true,
+        topTries: 4,
+        zone: true,
+        zoneTries: 3,
+        lowZone: true,
+        lowZoneTries: 1,
+        status: "locked"
+      },
+      {
+        sourceRouteId: 18765,
+        routeName: "2",
+        points: 24.9,
+        top: true,
+        topTries: 2,
+        zone: true,
+        zoneTries: 1,
+        lowZone: true,
+        lowZoneTries: 1,
+        status: "locked"
+      },
+      {
+        sourceRouteId: 18766,
+        routeName: "3",
+        points: 0,
+        top: false,
+        topTries: 9,
+        zone: false,
+        zoneTries: 9,
+        lowZone: false,
+        lowZoneTries: undefined,
+        status: "locked"
+      },
+      {
+        sourceRouteId: 18767,
+        routeName: "4",
+        points: 24.9,
+        top: true,
+        topTries: 2,
+        zone: true,
+        zoneTries: 1,
+        lowZone: true,
+        lowZoneTries: 1,
+        status: "locked"
+      }
+    ]);
+  });
+
+  it("matches the final-round slice in the full event result fixture", async () => {
+    const roundResult = parseCategoryRoundResultsJson(await readFixture("category-round-10668-results.json"));
+    const eventResult = parseEventResultJson(await readFixture("event-1478-result-7.json"));
+    const winnerEventRanking = eventResult.rankings.find((ranking) => ranking.sourceAthleteId === 2501);
+    const winnerFinalRound = winnerEventRanking?.rounds.find((round) => round.sourceCategoryRoundId === 10668);
+
+    expect(roundResult.rankings[0]).toMatchObject({
+      sourceAthleteId: winnerEventRanking?.sourceAthleteId,
+      name: winnerEventRanking?.name,
+      country: winnerEventRanking?.country,
+      rank: winnerFinalRound?.rank,
+      score: winnerFinalRound?.score
+    });
+    expect(roundResult.rankings[0]?.ascents).toEqual(winnerFinalRound?.ascents);
   });
 });

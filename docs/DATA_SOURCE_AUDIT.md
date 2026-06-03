@@ -216,3 +216,36 @@ Event 1405 metadata:
 - The bouldering normalizer can normalize all rows from the added fixtures without source-specific branching by gender.
 - `low_zone: null` is normalized as absent, while boolean `low_zone` values are preserved.
 - The fixture set still covers only bouldering. Lead and speed should remain separate future schema decisions.
+
+## 2026-06-03: Category Round Endpoint Comparison
+
+### Fixture
+
+- Category round result URL: `https://ifsc.results.info/api/v1/category_rounds/10668/results`
+- Category round fixture: `src/sources/ifsc-results/fixtures/category-round-10668-results.json`
+- Source context: event 1478, Boulder Women, Final.
+
+Fetch command:
+
+```sh
+pnpm save:json-fixture -- \
+  --url "https://ifsc.results.info/api/v1/category_rounds/10668/results" \
+  --out category-round-10668-results.json \
+  --referer "https://ifsc.results.info/event/1478/general/boulder"
+```
+
+### Shape Summary
+
+The category-round endpoint is a round-specific JSON shape. It includes:
+
+- Round identity: `id`, `event_id`, `dcat_id`, `discipline`, `category`, `round`, `status`.
+- Boulder scoring settings: `points_per_boulder_settings`.
+- Route/problem list: `routes`.
+- Round ranking rows with athlete details, `rank`, `score`, `start_order`, and `ascents`.
+- Extra round-state fields not currently used by normalization, such as `active`, `under_appeal`, `invisible_score`, and `applied_invisible_score_tiebreaker`.
+
+Compared with `event-1478-result-7.json`, the final-round ranking data matches the final-round slice of the full event result for the tested athlete and ascent rows. The full event result is still enough for the current bouldering normalizer because it already includes round scores and ascent details for all rounds.
+
+### Current Decision
+
+Use the full event result endpoint (`/api/v1/events/:eventId/result/:resultId`) as the primary parser/normalizer input for the current POC. Keep category-round endpoints as optional audit/enrichment fixtures when round-specific fields such as `start_order`, route lists, scoring settings, appeals, or live-state fields become important.

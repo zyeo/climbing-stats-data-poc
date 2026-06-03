@@ -20,6 +20,7 @@ pnpm test
 pnpm typecheck
 pnpm save:fixture
 pnpm save:json-fixture
+pnpm report:fixture
 pnpm scrape:event
 pnpm scrape:rankings
 ```

@@ -67,6 +67,57 @@ const eventResultSchema = z.object({
   ranking_as_of: z.string().nullable().optional()
 }).passthrough();
 
+const ascentSchema = z.object({
+  route_id: z.number().nullable().optional(),
+  route_name: z.string().nullable().optional(),
+  points: z.number().nullable().optional(),
+  top: z.boolean().nullable().optional(),
+  top_tries: z.number().nullable().optional(),
+  zone: z.boolean().nullable().optional(),
+  zone_tries: z.number().nullable().optional(),
+  low_zone: z.boolean().nullable().optional(),
+  low_zone_tries: z.number().nullable().optional(),
+  status: z.string().nullable().optional()
+}).passthrough();
+
+const categoryRoundResultSchema = z.object({
+  id: z.number(),
+  event: z.string(),
+  event_id: z.number(),
+  dcat_id: z.number(),
+  discipline: z.string(),
+  status: z.string(),
+  category: z.string(),
+  round: z.string(),
+  points_per_boulder_settings: z.object({
+    points_per_zone: z.number().nullable().optional(),
+    points_per_top: z.number().nullable().optional(),
+    points_per_low_zone: z.number().nullable().optional(),
+    use_low_zone: z.boolean().nullable().optional(),
+    fall_deduction: z.number().nullable().optional()
+  }).passthrough().nullable().optional(),
+  routes: z.array(
+    z.object({
+      id: z.number(),
+      name: z.string()
+    }).passthrough()
+  ).optional(),
+  ranking: z.array(
+    z.object({
+      athlete_id: z.number(),
+      bib: z.string().nullable().optional(),
+      country: z.string().nullable().optional(),
+      firstname: z.string().nullable().optional(),
+      lastname: z.string().nullable().optional(),
+      name: z.string(),
+      rank: z.number().nullable().optional(),
+      score: z.string().nullable().optional(),
+      start_order: z.number().nullable().optional(),
+      ascents: z.array(ascentSchema).optional()
+    }).passthrough()
+  )
+}).passthrough();
+
 export interface IfscParsedEventMetadata {
   sourceEventId: number;
   name: string;
@@ -123,6 +174,51 @@ export interface IfscParsedEventResult {
     }>;
   }>;
   rankingAsOf?: string;
+}
+
+export interface IfscParsedCategoryRoundResult {
+  sourceCategoryRoundId: number;
+  sourceEventId: number;
+  sourceDisciplineCategoryId: number;
+  eventName: string;
+  discipline: string;
+  category: string;
+  roundName: string;
+  status: string;
+  boulderPointsSettings?: {
+    pointsPerZone?: number;
+    pointsPerTop?: number;
+    pointsPerLowZone?: number;
+    useLowZone?: boolean;
+    fallDeduction?: number;
+  };
+  routes: Array<{
+    sourceRouteId: number;
+    routeName: string;
+  }>;
+  rankings: Array<{
+    sourceAthleteId: number;
+    bibNumber?: string;
+    name: string;
+    firstName?: string;
+    lastName?: string;
+    country?: string;
+    rank?: number;
+    score?: string;
+    startOrder?: number;
+    ascents: Array<{
+      sourceRouteId?: number;
+      routeName?: string;
+      points?: number;
+      top?: boolean;
+      topTries?: number;
+      zone?: boolean;
+      zoneTries?: number;
+      lowZone?: boolean;
+      lowZoneTries?: number;
+      status?: string;
+    }>;
+  }>;
 }
 
 function parseJsonObject(json: string): unknown {
@@ -210,5 +306,56 @@ export function parseEventResultJson(json: string): IfscParsedEventResult {
       }))
     })),
     rankingAsOf: optionalString(input.ranking_as_of)
+  };
+}
+
+export function parseCategoryRoundResultsJson(json: string): IfscParsedCategoryRoundResult {
+  const input = categoryRoundResultSchema.parse(parseJsonObject(json));
+
+  return {
+    sourceCategoryRoundId: input.id,
+    sourceEventId: input.event_id,
+    sourceDisciplineCategoryId: input.dcat_id,
+    eventName: input.event,
+    discipline: input.discipline.toLowerCase(),
+    category: input.category,
+    roundName: input.round,
+    status: input.status,
+    boulderPointsSettings: input.points_per_boulder_settings
+      ? {
+          pointsPerZone: input.points_per_boulder_settings.points_per_zone ?? undefined,
+          pointsPerTop: input.points_per_boulder_settings.points_per_top ?? undefined,
+          pointsPerLowZone: input.points_per_boulder_settings.points_per_low_zone ?? undefined,
+          useLowZone: input.points_per_boulder_settings.use_low_zone ?? undefined,
+          fallDeduction: input.points_per_boulder_settings.fall_deduction ?? undefined
+        }
+      : undefined,
+    routes: input.routes?.map((route) => ({
+      sourceRouteId: route.id,
+      routeName: route.name
+    })) ?? [],
+    rankings: input.ranking.map((ranking) => ({
+      sourceAthleteId: ranking.athlete_id,
+      bibNumber: optionalString(ranking.bib),
+      name: ranking.name,
+      firstName: optionalString(ranking.firstname),
+      lastName: optionalString(ranking.lastname),
+      country: optionalString(ranking.country),
+      rank: ranking.rank ?? undefined,
+      score: ranking.score ?? undefined,
+      startOrder: ranking.start_order ?? undefined,
+      ascents: ranking.ascents?.map((ascent) => ({
+        sourceRouteId: ascent.route_id ?? undefined,
+        routeName: ascent.route_name ?? undefined,
+        points: ascent.points ?? undefined,
+        top: ascent.top ?? undefined,
+        topTries: ascent.top_tries ?? undefined,
+        zone: ascent.zone ?? undefined,
+        zoneTries: ascent.zone_tries ?? undefined,
+        lowZone: ascent.low_zone ?? undefined,
+        lowZoneTries: ascent.low_zone_tries ?? undefined,
+        status: ascent.status ?? undefined
+      })) ?? []
+    }))
   };
 }

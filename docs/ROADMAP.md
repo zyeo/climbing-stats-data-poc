@@ -35,6 +35,14 @@
 - Compare one round-level endpoint shape such as `category_rounds[*].result_url`.
 - Decide whether normalized exports should include a small CLI/report for fixture inspection.
 - Keep tests fixture-based and avoid live network requests.
+- Status: Done for one Women Boulder final-round endpoint and a local fixture report CLI.
+
+## Phase 6: Next Data Feasibility Questions
+
+- Decide whether to add round-local normalized fields such as start order and boulder scoring settings.
+- Add one lead fixture only when ready to design a separate lead-specific shape.
+- Add one speed fixture only when ready to design a separate speed-specific shape.
+- Keep avoiding crawl/discovery automation until the source model is stable.
 
 ## Later Phases
 

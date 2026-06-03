@@ -473,3 +473,56 @@ Known limitations:
 - This remains bouldering-only.
 - No round-level endpoint parser has been implemented yet.
 - No live network calls are used in tests.
+
+### Category Round Fixture Comparison And Local Report CLI
+
+Saved one category-round JSON fixture for event 1478 Boulder Women Final:
+
+```sh
+pnpm save:json-fixture -- --url "https://ifsc.results.info/api/v1/category_rounds/10668/results" --out category-round-10668-results.json --referer "https://ifsc.results.info/event/1478/general/boulder"
+```
+
+Added:
+
+- `src/sources/ifsc-results/fixtures/category-round-10668-results.json`
+- `parseCategoryRoundResultsJson` in `src/sources/ifsc-results/parseEventJson.ts`
+- Fixture-backed parser tests comparing the round endpoint with the final-round slice of `event-1478-result-7.json`
+- `src/cli/reportFixture.ts`
+- `src/cli/__tests__/reportFixture.test.ts`
+- `pnpm report:fixture`
+
+Findings:
+
+- The category-round endpoint is a round-specific shape with `points_per_boulder_settings`, `routes`, `ranking`, `start_order`, and ascent details.
+- For the tested Women Boulder final round, the round endpoint matches the full event result's final-round ranking/ascent data.
+- The full event result endpoint remains the best primary input for the current normalizer because it contains all rounds in one fixture.
+- Category-round endpoints are useful optional enrichment fixtures for route lists, start order, scoring settings, appeals, and live-state fields.
+
+Local report command run:
+
+```sh
+pnpm report:fixture -- --event 1478 --result 7
+```
+
+Result summary:
+
+- Competition: `World Climbing Series Bern 2026`
+- Result: `BOULDER Women`
+- Athletes/results: 75
+- Round results: 107
+- Boulder problem results: 503
+- Low-zone counts: 416 true, 87 false, 0 absent
+
+Verification so far:
+
+```sh
+pnpm test
+pnpm typecheck
+```
+
+Results:
+
+- `pnpm test` passed:
+  - 9 test files passed.
+  - 60 tests passed.
+- `pnpm typecheck` passed.
