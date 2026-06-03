@@ -104,4 +104,56 @@ describe("normalizeIfscBoulderingEventResult", () => {
       })
     ).toThrow("Only bouldering event results are supported");
   });
+
+  it("preserves event 1412 DNS/unranked rows without crashing normalization", async () => {
+    const normalized = await normalizeFixture(1412);
+    const unrankedResults = normalized.results.filter((result) => result.rank === undefined);
+    const unrankedRoundResults = normalized.roundResults.filter((result) => result.rank === undefined);
+
+    expect(unrankedResults).toHaveLength(2);
+    expect(unrankedRoundResults).toHaveLength(2);
+    expect(unrankedResults.map((result) => result.score)).toEqual(["DNS", "DNS"]);
+    expect(unrankedResults.every((result) => result.sourceAthleteId)).toBe(true);
+  });
+
+  it("keeps starting groups optional outside qualification rounds", async () => {
+    const normalized = await normalizeFixture(1412);
+    const qualificationResults = normalized.roundResults.filter((result) => result.startingGroup);
+    const nonQualificationResults = normalized.roundResults.filter((result) => !result.startingGroup);
+
+    expect(qualificationResults).toHaveLength(112);
+    expect(nonQualificationResults).toHaveLength(32);
+    expect([...new Set(qualificationResults.map((result) => result.startingGroup))].sort()).toEqual(["Group A", "Group B"]);
+  });
+
+  it("normalizes low-zone nulls from event 1412 as absent values", async () => {
+    const normalized = await normalizeFixture(1412);
+
+    expect(normalized.boulderProblemResults).toHaveLength(688);
+    expect(normalized.boulderProblemResults.every((problem) => problem.lowZone === undefined)).toBe(true);
+    expect(normalized.boulderProblemResults.every((problem) => problem.lowZoneTries === undefined)).toBe(true);
+  });
+
+  it("preserves low-zone booleans from event 1478", async () => {
+    const normalized = await normalizeFixture(1478);
+    const lowZoneCounts = normalized.boulderProblemResults.reduce(
+      (counts, problem) => {
+        if (problem.lowZone) {
+          counts.true += 1;
+        } else {
+          counts.false += 1;
+        }
+
+        return counts;
+      },
+      { true: 0, false: 0 }
+    );
+
+    expect(lowZoneCounts).toEqual({ true: 354, false: 164 });
+    expect(
+      normalized.boulderProblemResults
+        .filter((problem) => problem.lowZone)
+        .every((problem) => problem.lowZoneTries !== undefined)
+    ).toBe(true);
+  });
 });

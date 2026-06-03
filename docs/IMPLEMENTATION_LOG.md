@@ -396,3 +396,12 @@ Notes:
 
 - `sourceCompetitionId` remains on competition/event records and currently stores the IFSC event ID for these fixtures.
 - `docs/SCHEMA.md` now documents current source identifier semantics.
+
+### IFSC Bouldering Edge Case Tests
+
+Added explicit tests for edge cases found in the cached fixtures:
+
+- Event 1412 has two DNS/unranked athletes with `rank: null`.
+- Qualification rows can have `startingGroup`, while later rounds do not.
+- Event 1412 has source `low_zone: null`, normalized as absent `lowZone`.
+- Event 1478 has boolean `low_zone` values, normalized as `lowZone`.

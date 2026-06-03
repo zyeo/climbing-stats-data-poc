@@ -142,3 +142,10 @@ Event 1478 is useful as a second fixture because it has the same broad JSON endp
 - Event 1478 `result/3`: `BOULDER Men`, 3 category rounds, 78 ranking rows.
 
 The comparison supports the current assumption that `/api/v1/events/:eventId` provides event metadata, while `/api/v1/events/:eventId/result/3` provides Boulder Men general ranking/result data for these examples. The exact meaning of `result/3` is still inferred and should be confirmed with additional discipline/category comparisons.
+
+### Edge Cases Captured In Tests
+
+- Event 1412 has two unranked/DNS rows where athlete-level and round-level `rank` are `null`.
+- Event 1412 has `low_zone: null` on all ascent rows.
+- Event 1478 has boolean `low_zone` values on all ascent rows.
+- Both fixtures use `starting_group` on qualification rows and omit it on later rounds.
