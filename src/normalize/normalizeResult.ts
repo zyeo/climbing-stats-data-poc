@@ -7,6 +7,8 @@ export interface IfscResultInput {
   rank?: number;
   score?: string;
   sourceUrl?: string;
+  sourceEventId?: string;
+  sourceAthleteId?: string;
 }
 
 export function normalizeResult(input: IfscResultInput): Result {
@@ -17,6 +19,8 @@ export function normalizeResult(input: IfscResultInput): Result {
     rank: input.rank,
     score: input.score,
     source: "ifsc-results",
-    sourceUrl: input.sourceUrl
+    sourceUrl: input.sourceUrl,
+    sourceEventId: input.sourceEventId,
+    sourceAthleteId: input.sourceAthleteId
   });
 }

@@ -8,6 +8,7 @@ export const eventSchema = z.object({
   category: z.string().optional(),
   source: z.literal("ifsc-results"),
   sourceUrl: z.string().url().optional(),
+  sourceEventId: z.string().optional(),
   sourceCompetitionId: z.string().optional()
 });
 

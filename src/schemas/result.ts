@@ -7,7 +7,9 @@ export const resultSchema = z.object({
   rank: z.number().int().positive().optional(),
   score: z.string().optional(),
   source: z.literal("ifsc-results"),
-  sourceUrl: z.string().url().optional()
+  sourceUrl: z.string().url().optional(),
+  sourceEventId: z.string().optional(),
+  sourceAthleteId: z.string().optional()
 });
 
 export type Result = z.infer<typeof resultSchema>;

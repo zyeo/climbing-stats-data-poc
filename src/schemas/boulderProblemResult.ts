@@ -6,6 +6,7 @@ export const boulderProblemResultSchema = z.object({
   athleteId: z.string().min(1),
   eventId: z.string().min(1),
   roundId: z.string().min(1),
+  sourceCategoryRoundId: z.string().optional(),
   sourceRouteId: z.string().optional(),
   routeName: z.string().optional(),
   points: z.number().optional(),

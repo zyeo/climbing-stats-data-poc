@@ -380,3 +380,19 @@ Results:
   - 8 test files passed.
   - 42 tests passed.
 - `pnpm typecheck` passed.
+
+### Source Traceability Fields
+
+Strengthened normalized source traceability fields.
+
+Updated schemas and normalizers to preserve:
+
+- `sourceEventId`
+- `sourceAthleteId`
+- `sourceCategoryRoundId`
+- `sourceRouteId`
+
+Notes:
+
+- `sourceCompetitionId` remains on competition/event records and currently stores the IFSC event ID for these fixtures.
+- `docs/SCHEMA.md` now documents current source identifier semantics.

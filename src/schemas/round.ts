@@ -6,7 +6,8 @@ export const roundSchema = z.object({
   name: z.string().min(1),
   order: z.number().int().nonnegative().optional(),
   source: z.literal("ifsc-results"),
-  sourceUrl: z.string().url().optional()
+  sourceUrl: z.string().url().optional(),
+  sourceCategoryRoundId: z.string().optional()
 });
 
 export type Round = z.infer<typeof roundSchema>;

@@ -6,6 +6,7 @@ export interface IfscBoulderProblemResultInput {
   athleteId: string;
   eventId: string;
   roundId: string;
+  sourceCategoryRoundId?: string;
   sourceRouteId?: string;
   routeName?: string;
   points?: number;
@@ -25,6 +26,7 @@ export function normalizeBoulderProblemResult(input: IfscBoulderProblemResultInp
     athleteId: input.athleteId,
     eventId: input.eventId,
     roundId: input.roundId,
+    sourceCategoryRoundId: input.sourceCategoryRoundId,
     sourceRouteId: input.sourceRouteId,
     routeName: input.routeName,
     points: input.points,

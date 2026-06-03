@@ -16,6 +16,7 @@ export function normalizeRound(input: IfscRoundInput): Round {
     name: input.name,
     order: input.order,
     source: "ifsc-results",
-    sourceUrl: input.sourceUrl
+    sourceUrl: input.sourceUrl,
+    sourceCategoryRoundId: input.sourceCategoryRoundId
   });
 }

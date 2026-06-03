@@ -53,6 +53,7 @@ export function normalizeIfscBoulderingEventResult(input: NormalizeIfscEventResu
     discipline: input.result.discipline,
     category: input.result.category,
     sourceUrl: input.resultSourceUrl,
+    sourceEventId: String(input.metadata.sourceEventId),
     sourceCompetitionId: String(input.metadata.sourceEventId)
   });
   const rounds = input.result.categoryRounds.map((round, index) =>
@@ -86,7 +87,9 @@ export function normalizeIfscBoulderingEventResult(input: NormalizeIfscEventResu
       athleteId: athlete.id,
       rank: ranking.rank,
       score: lastAvailableScore(ranking.rounds),
-      sourceUrl: input.resultSourceUrl
+      sourceUrl: input.resultSourceUrl,
+      sourceEventId: String(input.metadata.sourceEventId),
+      sourceAthleteId: String(ranking.sourceAthleteId)
     });
   });
   const resultByAthleteId = new Map(results.map((result) => [result.athleteId, result]));
@@ -133,6 +136,7 @@ export function normalizeIfscBoulderingEventResult(input: NormalizeIfscEventResu
             athleteId: athlete.id,
             eventId: event.id,
             roundId: round.id,
+            sourceCategoryRoundId: String(sourceRound.sourceCategoryRoundId),
             sourceRouteId: ascent.sourceRouteId ? String(ascent.sourceRouteId) : undefined,
             routeName: ascent.routeName,
             points: ascent.points,

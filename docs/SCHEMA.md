@@ -6,8 +6,11 @@ All normalized records should preserve source traceability where relevant:
 
 - `source`
 - `sourceUrl`
+- `sourceEventId`
 - `sourceAthleteId`
 - `sourceCompetitionId`
+- `sourceCategoryRoundId`
+- `sourceRouteId`
 
 Current schemas are placeholders and intentionally minimal. They should evolve only when backed by real fixtures and tests.
 
@@ -43,6 +46,16 @@ The first detailed performance schema is bouldering-only.
 Lead and speed-specific performance details are intentionally deferred until real fixtures and tests justify those schema decisions.
 
 `RoundResult` represents one athlete's rank and score within one round. It bridges the event-level `Result` record and the bouldering problem-level records.
+
+## Source Identifiers
+
+Fixture-backed normalization currently preserves these IFSC identifiers:
+
+- `sourceEventId`: IFSC event ID, such as `1412`.
+- `sourceCompetitionId`: currently also the IFSC event ID for competition-level records.
+- `sourceAthleteId`: IFSC athlete ID from ranking rows.
+- `sourceCategoryRoundId`: IFSC category round ID from `category_rounds`.
+- `sourceRouteId`: IFSC route/problem ID from ascent rows.
 
 ## Full Fixture Normalization
 

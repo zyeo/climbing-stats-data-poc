@@ -60,9 +60,10 @@ async function normalizeRepresentativeFixture(expectation: RepresentativeFixture
     name: result.disciplineCategory,
     competitionId: competition.id,
     discipline: result.discipline,
-    category: result.category,
-    sourceUrl: expectation.resultUrl,
-    sourceCompetitionId: String(metadata.sourceEventId)
+      category: result.category,
+      sourceUrl: expectation.resultUrl,
+      sourceEventId: String(metadata.sourceEventId),
+      sourceCompetitionId: String(metadata.sourceEventId)
   });
   const rounds = result.categoryRounds.map((round, index) =>
     normalizeRound({
@@ -85,8 +86,10 @@ async function normalizeRepresentativeFixture(expectation: RepresentativeFixture
     eventId: event.id,
     athleteId: athlete.id,
     rank: firstRanking.rank,
-    score: firstRanking.rounds.at(-1)?.score,
-    sourceUrl: expectation.resultUrl
+      score: firstRanking.rounds.at(-1)?.score,
+      sourceUrl: expectation.resultUrl,
+      sourceEventId: String(metadata.sourceEventId),
+      sourceAthleteId: String(firstRanking.sourceAthleteId)
   });
   const roundResults = firstRanking.rounds.map((round) => {
     const roundRecord = roundBySourceId.get(round.sourceCategoryRoundId);
@@ -120,6 +123,7 @@ async function normalizeRepresentativeFixture(expectation: RepresentativeFixture
       athleteId: athlete.id,
       eventId: event.id,
       roundId: finalRoundRecord.id,
+      sourceCategoryRoundId: String(finalRound.sourceCategoryRoundId),
       sourceRouteId: ascent.sourceRouteId ? String(ascent.sourceRouteId) : undefined,
       routeName: ascent.routeName,
       points: ascent.points,
@@ -221,6 +225,7 @@ describe("normalizing IFSC event JSON fixtures", () => {
       category: "Men",
       source: "ifsc-results",
       sourceUrl: expectation.resultUrl,
+      sourceEventId: String(expectation.eventId),
       sourceCompetitionId: String(expectation.eventId)
     });
     expect(normalized.result.rankings).toHaveLength(expectation.rankingCount);
@@ -239,7 +244,9 @@ describe("normalizing IFSC event JSON fixtures", () => {
       rank: expectation.athlete.rank,
       score: expectation.athlete.finalScore,
       source: "ifsc-results",
-      sourceUrl: expectation.resultUrl
+      sourceUrl: expectation.resultUrl,
+      sourceEventId: String(expectation.eventId),
+      sourceAthleteId: String(expectation.athlete.sourceAthleteId)
     });
     expect(normalized.roundResults.map((roundResult) => ({
       rank: roundResult.rank,
@@ -250,6 +257,7 @@ describe("normalizing IFSC event JSON fixtures", () => {
     expect(normalized.boulderProblemResults).toHaveLength(4);
     expect(normalized.boulderProblemResults.map((problem) => ({
       sourceRouteId: problem.sourceRouteId,
+      sourceCategoryRoundId: problem.sourceCategoryRoundId,
       points: problem.points,
       top: problem.top,
       topTries: problem.topTries,
@@ -257,6 +265,9 @@ describe("normalizing IFSC event JSON fixtures", () => {
       zoneTries: problem.zoneTries,
       lowZone: problem.lowZone,
       lowZoneTries: problem.lowZoneTries
-    }))).toEqual(expectation.athlete.finalAscents);
+    }))).toEqual(expectation.athlete.finalAscents.map((ascent) => ({
+      ...ascent,
+      sourceCategoryRoundId: normalized.roundResults.at(-1)?.sourceCategoryRoundId
+    })));
   });
 });

@@ -7,6 +7,7 @@ export interface IfscEventInput {
   discipline?: string;
   category?: string;
   sourceUrl?: string;
+  sourceEventId?: string;
   sourceCompetitionId?: string;
 }
 
@@ -19,6 +20,7 @@ export function normalizeEvent(input: IfscEventInput): Event {
     category: input.category,
     source: "ifsc-results",
     sourceUrl: input.sourceUrl,
+    sourceEventId: input.sourceEventId,
     sourceCompetitionId: input.sourceCompetitionId
   });
 }
