@@ -13,6 +13,7 @@ interface FullFixtureExpectation {
   athleteCount: number;
   resultCount: number;
   roundResultCount: number;
+  boulderProblemCount: number;
   boulderProblemResultCount: number;
   nullRankResultCount: number;
   lowZoneValues: Array<boolean | undefined>;
@@ -48,6 +49,7 @@ describe("normalizeIfscBoulderingEventResult", () => {
       athleteCount: 112,
       resultCount: 112,
       roundResultCount: 144,
+      boulderProblemCount: 18,
       boulderProblemResultCount: 688,
       nullRankResultCount: 2,
       lowZoneValues: [undefined]
@@ -62,6 +64,7 @@ describe("normalizeIfscBoulderingEventResult", () => {
       athleteCount: 78,
       resultCount: 78,
       roundResultCount: 110,
+      boulderProblemCount: 18,
       boulderProblemResultCount: 518,
       nullRankResultCount: 0,
       lowZoneValues: [false, true]
@@ -76,6 +79,7 @@ describe("normalizeIfscBoulderingEventResult", () => {
       athleteCount: 75,
       resultCount: 75,
       roundResultCount: 107,
+      boulderProblemCount: 18,
       boulderProblemResultCount: 503,
       nullRankResultCount: 0,
       lowZoneValues: [false, true]
@@ -90,6 +94,7 @@ describe("normalizeIfscBoulderingEventResult", () => {
       athleteCount: 68,
       resultCount: 68,
       roundResultCount: 100,
+      boulderProblemCount: 18,
       boulderProblemResultCount: 468,
       nullRankResultCount: 0,
       lowZoneValues: [undefined]
@@ -104,6 +109,7 @@ describe("normalizeIfscBoulderingEventResult", () => {
       athleteCount: 58,
       resultCount: 58,
       roundResultCount: 91,
+      boulderProblemCount: 18,
       boulderProblemResultCount: 422,
       nullRankResultCount: 0,
       lowZoneValues: [undefined]
@@ -132,6 +138,7 @@ describe("normalizeIfscBoulderingEventResult", () => {
       expect(normalized.athletes).toHaveLength(expectation.athleteCount);
       expect(normalized.results).toHaveLength(expectation.resultCount);
       expect(normalized.roundResults).toHaveLength(expectation.roundResultCount);
+      expect(normalized.boulderProblems).toHaveLength(expectation.boulderProblemCount);
       expect(normalized.boulderProblemResults).toHaveLength(expectation.boulderProblemResultCount);
       expect(normalized.results.filter((result) => result.rank === undefined)).toHaveLength(expectation.nullRankResultCount);
       expect([...new Set(normalized.boulderProblemResults.map((problem) => problem.lowZone).sort())]).toEqual(
@@ -140,7 +147,13 @@ describe("normalizeIfscBoulderingEventResult", () => {
       expect(normalized.athletes.every((athlete) => athlete.source === "ifsc-results")).toBe(true);
       expect(normalized.results.every((result) => result.source === "ifsc-results")).toBe(true);
       expect(normalized.roundResults.every((result) => result.source === "ifsc-results")).toBe(true);
+      expect(normalized.boulderProblems.every((result) => result.source === "ifsc-results")).toBe(true);
       expect(normalized.boulderProblemResults.every((result) => result.source === "ifsc-results")).toBe(true);
+      expect(
+        normalized.boulderProblemResults.every((result) =>
+          normalized.boulderProblems.some((problem) => problem.id === result.boulderProblemId)
+        )
+      ).toBe(true);
     }
   );
 
@@ -221,6 +234,7 @@ describe("normalizeIfscBoulderingEventResult", () => {
     const finalProblems = normalized.boulderProblemResults.filter(
       (problem) => problem.athleteId === winner?.id && problem.roundId === finalRound?.id
     );
+    const finalBoulders = normalized.boulderProblems.filter((problem) => problem.roundId === finalRound?.id);
 
     expect(winner).toMatchObject({
       name: "MACKENZIE Oceania",
@@ -232,17 +246,27 @@ describe("normalizeIfscBoulderingEventResult", () => {
       sourceEventId: "1478",
       sourceAthleteId: "2501"
     });
+    expect(finalBoulders.map((problem) => ({
+      sourceRouteId: problem.sourceRouteId,
+      routeName: problem.routeName
+    }))).toEqual([
+      { sourceRouteId: "18764", routeName: "1" },
+      { sourceRouteId: "18765", routeName: "2" },
+      { sourceRouteId: "18766", routeName: "3" },
+      { sourceRouteId: "18767", routeName: "4" }
+    ]);
     expect(finalProblems.map((problem) => ({
+      boulderProblemId: problem.boulderProblemId,
       sourceRouteId: problem.sourceRouteId,
       points: problem.points,
       top: problem.top,
       zone: problem.zone,
       lowZone: problem.lowZone
     }))).toEqual([
-      { sourceRouteId: "18764", points: 24.7, top: true, zone: true, lowZone: true },
-      { sourceRouteId: "18765", points: 24.9, top: true, zone: true, lowZone: true },
-      { sourceRouteId: "18766", points: 0, top: false, zone: false, lowZone: false },
-      { sourceRouteId: "18767", points: 24.9, top: true, zone: true, lowZone: true }
+      { boulderProblemId: finalBoulders[0]?.id, sourceRouteId: "18764", points: 24.7, top: true, zone: true, lowZone: true },
+      { boulderProblemId: finalBoulders[1]?.id, sourceRouteId: "18765", points: 24.9, top: true, zone: true, lowZone: true },
+      { boulderProblemId: finalBoulders[2]?.id, sourceRouteId: "18766", points: 0, top: false, zone: false, lowZone: false },
+      { boulderProblemId: finalBoulders[3]?.id, sourceRouteId: "18767", points: 24.9, top: true, zone: true, lowZone: true }
     ]);
   });
 });

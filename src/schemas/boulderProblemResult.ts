@@ -3,6 +3,7 @@ import { z } from "zod";
 export const boulderProblemResultSchema = z.object({
   id: z.string().min(1),
   resultId: z.string().min(1),
+  boulderProblemId: z.string().min(1),
   athleteId: z.string().min(1),
   eventId: z.string().min(1),
   roundId: z.string().min(1),

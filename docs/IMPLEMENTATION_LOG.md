@@ -562,3 +562,62 @@ Results:
   - 10 test files passed.
   - 62 tests passed.
 - `pnpm typecheck` passed.
+
+### Shared Boulder Problem Normalization
+
+Added first-class normalized boulder/problem records for bouldering analysis.
+
+Created:
+
+- `src/schemas/boulderProblem.ts`
+- `src/normalize/normalizeBoulderProblem.ts`
+- `src/normalize/__tests__/normalizeBoulderProblem.test.ts`
+
+Updated:
+
+- `src/schemas/boulderProblemResult.ts`
+- `src/normalize/normalizeBoulderProblemResult.ts`
+- `src/normalize/normalizeIfscEventResult.ts`
+- `src/normalize/__tests__/normalizeIfscEventJson.test.ts`
+- `src/normalize/__tests__/normalizeIfscFullEventResult.test.ts`
+- `src/cli/reportFixture.ts`
+- `src/cli/__tests__/reportFixture.test.ts`
+- `docs/SCHEMA.md`
+- `docs/DECISIONS.md`
+- `docs/ROADMAP.md`
+- `tasks/004-normalize-event-data.md`
+
+Notes:
+
+- `BoulderProblem` represents the shared boulder/route within a round.
+- `BoulderProblemResult` now links to the shared problem with `boulderProblemId`.
+- Current full bouldering fixtures each normalize to 18 shared boulder problems:
+  - 10 qualification problems across two starting groups.
+  - 4 semifinal problems.
+  - 4 final problems.
+- The report CLI now prints both shared `boulderProblems` and athlete-level `boulderProblemResults`.
+
+Local report command run:
+
+```sh
+pnpm report:fixture -- --event 1478 --result 7
+```
+
+Result summary:
+
+- Shared boulder problems: 18
+- Athlete boulder problem results: 503
+
+Verification so far:
+
+```sh
+pnpm test
+pnpm typecheck
+```
+
+Results:
+
+- `pnpm test` passed:
+  - 11 test files passed.
+  - 63 tests passed.
+- `pnpm typecheck` passed.

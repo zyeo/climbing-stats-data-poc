@@ -28,6 +28,7 @@ Current app-facing records covered by tests:
 - A minimal event result record using the athlete's final-round score.
 - Round result records using the athlete's per-round scores.
 - Start order on round result records when available from round-level fixtures.
+- Shared boulder problem records for each route/problem within a round.
 - Boulder problem-level results from the athlete's final-round `ascents`.
 
 These tests intentionally keep the schemas small while preserving source traceability fields.
@@ -36,7 +37,13 @@ These tests intentionally keep the schemas small while preserving source traceab
 
 The first detailed performance schema is bouldering-only.
 
-`BoulderProblemResult` represents one athlete's result on one boulder/problem in one round. It currently preserves:
+`BoulderProblem` represents a shared boulder/problem within one round. It currently preserves:
+
+- Event and round links.
+- Source category round ID.
+- Source route/problem ID and route name.
+
+`BoulderProblemResult` represents one athlete's result on one shared boulder/problem in one round. It links to `BoulderProblem` through `boulderProblemId` and currently preserves:
 
 - Source route ID and route name.
 - Points.
@@ -70,6 +77,7 @@ Fixture-backed normalization currently preserves these IFSC identifiers:
 - `competition`
 - `event`
 - `rounds`
+- `boulderProblems`
 - `athletes`
 - `results`
 - `roundResults`
@@ -84,3 +92,5 @@ Fixture-backed tests cover all ranking rows from:
 - Event 1405 Boulder Women.
 
 This is still bouldering-only; lead and speed remain out of scope until separate fixtures justify their schema design.
+
+The current bouldering fixtures each normalize to 18 shared `BoulderProblem` records: 10 qualification problems across two starting groups, 4 semifinal problems, and 4 final problems. Athlete-level `BoulderProblemResult` rows link back to these shared problem records.

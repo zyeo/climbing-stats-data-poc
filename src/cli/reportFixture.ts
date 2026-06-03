@@ -23,6 +23,7 @@ export interface NormalizedFixtureReport {
     athletes: number;
     results: number;
     roundResults: number;
+    boulderProblems: number;
     boulderProblemResults: number;
     unrankedResults: number;
   };
@@ -124,6 +125,7 @@ export async function createNormalizedFixtureReport(options: ReportFixtureOption
       athletes: normalized.athletes.length,
       results: normalized.results.length,
       roundResults: normalized.roundResults.length,
+      boulderProblems: normalized.boulderProblems.length,
       boulderProblemResults: normalized.boulderProblemResults.length,
       unrankedResults: normalized.results.filter((resultRecord) => resultRecord.rank === undefined).length
     },

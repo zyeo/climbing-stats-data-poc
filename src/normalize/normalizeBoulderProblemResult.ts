@@ -3,6 +3,7 @@ import { createStableId } from "../utils/ids.js";
 
 export interface IfscBoulderProblemResultInput {
   resultId: string;
+  boulderProblemId: string;
   athleteId: string;
   eventId: string;
   roundId: string;
@@ -21,8 +22,9 @@ export interface IfscBoulderProblemResultInput {
 
 export function normalizeBoulderProblemResult(input: IfscBoulderProblemResultInput): BoulderProblemResult {
   return boulderProblemResultSchema.parse({
-    id: createStableId(["boulder-problem-result", input.resultId, input.roundId, input.sourceRouteId ?? input.routeName ?? ""]),
+    id: createStableId(["boulder-problem-result", input.resultId, input.boulderProblemId]),
     resultId: input.resultId,
+    boulderProblemId: input.boulderProblemId,
     athleteId: input.athleteId,
     eventId: input.eventId,
     roundId: input.roundId,

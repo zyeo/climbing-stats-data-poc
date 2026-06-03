@@ -39,7 +39,8 @@
 
 ## Phase 6: Next Data Feasibility Questions
 
-- Decide whether to add round-local normalized fields such as start order and boulder scoring settings.
+- Decide whether to add round-local normalized fields such as boulder scoring settings.
+- Use normalized `BoulderProblem` records for boulder-level analysis across athletes.
 - Add one lead fixture only when ready to design a separate lead-specific shape.
 - Add one speed fixture only when ready to design a separate speed-specific shape.
 - Keep avoiding crawl/discovery automation until the source model is stable.

@@ -1,6 +1,7 @@
 import { readFile } from "node:fs/promises";
 import { describe, expect, it } from "vitest";
 import { normalizeAthlete } from "../normalizeAthlete.js";
+import { normalizeBoulderProblem } from "../normalizeBoulderProblem.js";
 import { normalizeBoulderProblemResult } from "../normalizeBoulderProblemResult.js";
 import { normalizeCompetition } from "../normalizeCompetition.js";
 import { normalizeEvent } from "../normalizeEvent.js";
@@ -117,9 +118,20 @@ async function normalizeRepresentativeFixture(expectation: RepresentativeFixture
     throw new Error(`Expected final round data in event ${expectation.eventId} result fixture.`);
   }
 
-  const boulderProblemResults = finalRound.ascents.map((ascent) =>
+  const boulderProblems = finalRound.ascents.map((ascent) =>
+    normalizeBoulderProblem({
+      eventId: event.id,
+      roundId: finalRoundRecord.id,
+      sourceCategoryRoundId: String(finalRound.sourceCategoryRoundId),
+      sourceRouteId: ascent.sourceRouteId ? String(ascent.sourceRouteId) : undefined,
+      routeName: ascent.routeName,
+      sourceUrl: expectation.resultUrl
+    })
+  );
+  const boulderProblemResults = finalRound.ascents.map((ascent, index) =>
     normalizeBoulderProblemResult({
       resultId: normalizedResult.id,
+      boulderProblemId: boulderProblems[index]?.id ?? "",
       athleteId: athlete.id,
       eventId: event.id,
       roundId: finalRoundRecord.id,
@@ -142,6 +154,7 @@ async function normalizeRepresentativeFixture(expectation: RepresentativeFixture
     competition,
     event,
     rounds,
+    boulderProblems,
     athlete,
     normalizedResult,
     roundResults,
@@ -255,7 +268,12 @@ describe("normalizing IFSC event JSON fixtures", () => {
     }))).toEqual(expectation.athlete.roundScores.map(({ rank, score, startingGroup }) => ({ rank, score, startingGroup })));
     expect(normalized.roundResults.every((roundResult) => roundResult.resultId === normalized.normalizedResult.id)).toBe(true);
     expect(normalized.boulderProblemResults).toHaveLength(4);
+    expect(normalized.boulderProblems).toHaveLength(4);
+    expect(normalized.boulderProblemResults.map((problem) => problem.boulderProblemId)).toEqual(
+      normalized.boulderProblems.map((problem) => problem.id)
+    );
     expect(normalized.boulderProblemResults.map((problem) => ({
+      boulderProblemId: problem.boulderProblemId,
       sourceRouteId: problem.sourceRouteId,
       sourceCategoryRoundId: problem.sourceCategoryRoundId,
       points: problem.points,
@@ -265,8 +283,9 @@ describe("normalizing IFSC event JSON fixtures", () => {
       zoneTries: problem.zoneTries,
       lowZone: problem.lowZone,
       lowZoneTries: problem.lowZoneTries
-    }))).toEqual(expectation.athlete.finalAscents.map((ascent) => ({
+    }))).toEqual(expectation.athlete.finalAscents.map((ascent, index) => ({
       ...ascent,
+      boulderProblemId: normalized.boulderProblems[index]?.id,
       sourceCategoryRoundId: normalized.roundResults.at(-1)?.sourceCategoryRoundId
     })));
   });

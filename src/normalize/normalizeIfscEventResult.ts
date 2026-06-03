@@ -1,4 +1,5 @@
 import { type Athlete } from "../schemas/athlete.js";
+import { type BoulderProblem } from "../schemas/boulderProblem.js";
 import { type BoulderProblemResult } from "../schemas/boulderProblemResult.js";
 import { type Competition } from "../schemas/competition.js";
 import { type Event } from "../schemas/event.js";
@@ -7,6 +8,7 @@ import { type Round } from "../schemas/round.js";
 import { type RoundResult } from "../schemas/roundResult.js";
 import { type IfscParsedEventMetadata, type IfscParsedEventResult } from "../sources/ifsc-results/parseEventJson.js";
 import { normalizeAthlete } from "./normalizeAthlete.js";
+import { normalizeBoulderProblem } from "./normalizeBoulderProblem.js";
 import { normalizeBoulderProblemResult } from "./normalizeBoulderProblemResult.js";
 import { normalizeCompetition } from "./normalizeCompetition.js";
 import { normalizeEvent } from "./normalizeEvent.js";
@@ -25,6 +27,7 @@ export interface NormalizedIfscEventResult {
   competition: Competition;
   event: Event;
   rounds: Round[];
+  boulderProblems: BoulderProblem[];
   athletes: Athlete[];
   results: Result[];
   roundResults: RoundResult[];
@@ -33,6 +36,10 @@ export interface NormalizedIfscEventResult {
 
 function lastAvailableScore(rounds: Array<{ score?: string }>): string | undefined {
   return [...rounds].reverse().find((round) => round.score)?.score;
+}
+
+function boulderProblemKey(roundId: string, sourceRouteId?: number, routeName?: string): string {
+  return [roundId, sourceRouteId ?? "", routeName ?? ""].join(":");
 }
 
 export function normalizeIfscBoulderingEventResult(input: NormalizeIfscEventResultInput): NormalizedIfscEventResult {
@@ -93,6 +100,8 @@ export function normalizeIfscBoulderingEventResult(input: NormalizeIfscEventResu
     });
   });
   const resultByAthleteId = new Map(results.map((result) => [result.athleteId, result]));
+  const boulderProblems: BoulderProblem[] = [];
+  const boulderProblemByKey = new Map<string, BoulderProblem>();
   const roundResults: RoundResult[] = [];
   const boulderProblemResults: BoulderProblemResult[] = [];
 
@@ -131,9 +140,26 @@ export function normalizeIfscBoulderingEventResult(input: NormalizeIfscEventResu
       roundResults.push(roundResult);
 
       for (const ascent of sourceRound.ascents) {
+        const key = boulderProblemKey(round.id, ascent.sourceRouteId, ascent.routeName);
+        let boulderProblem = boulderProblemByKey.get(key);
+
+        if (!boulderProblem) {
+          boulderProblem = normalizeBoulderProblem({
+            eventId: event.id,
+            roundId: round.id,
+            sourceCategoryRoundId: String(sourceRound.sourceCategoryRoundId),
+            sourceRouteId: ascent.sourceRouteId ? String(ascent.sourceRouteId) : undefined,
+            routeName: ascent.routeName,
+            sourceUrl: input.resultSourceUrl
+          });
+          boulderProblems.push(boulderProblem);
+          boulderProblemByKey.set(key, boulderProblem);
+        }
+
         boulderProblemResults.push(
           normalizeBoulderProblemResult({
             resultId: result.id,
+            boulderProblemId: boulderProblem.id,
             athleteId: athlete.id,
             eventId: event.id,
             roundId: round.id,
@@ -158,6 +184,7 @@ export function normalizeIfscBoulderingEventResult(input: NormalizeIfscEventResu
     competition,
     event,
     rounds,
+    boulderProblems,
     athletes,
     results,
     roundResults,

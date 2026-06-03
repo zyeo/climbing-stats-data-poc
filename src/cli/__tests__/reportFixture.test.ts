@@ -35,6 +35,7 @@ describe("createNormalizedFixtureReport", () => {
         athletes: 75,
         results: 75,
         roundResults: 107,
+        boulderProblems: 18,
         boulderProblemResults: 503,
         unrankedResults: 0
       },

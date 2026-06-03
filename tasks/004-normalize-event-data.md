@@ -20,6 +20,8 @@ Full-fixture tests now normalize every Boulder Men/Women ranking row from the cu
 
 `RoundResult.startOrder` is now part of the normalized schema when a round-level fixture provides it. Boulder scoring settings remain source-specific and are not normalized yet.
 
+`BoulderProblem` is now a normalized shared record for each route/problem within a round. `BoulderProblemResult` rows link to it with `boulderProblemId`, which supports boulder-level analysis across athletes.
+
 ## Remaining Out Of Scope
 
 - Lead normalization.
