@@ -20,20 +20,20 @@
 - Write failing tests against cached JSON fixtures.
 - Parse minimal event metadata and bouldering result data.
 - Validate assumptions in docs.
-- Status: Done for event metadata and Boulder Men result fixtures.
+- Status: Done for current event metadata and Boulder Men/Women result fixtures.
 
 ## Phase 4: Normalize Bouldering Event Data
 
 - Map source-specific event data into normalized schemas.
 - Preserve source identifiers and source URLs.
 - Add Zod validation tests.
-- Status: Done for Boulder Men result fixtures from events 1412 and 1478.
+- Status: Done for current Boulder Men/Women fixtures from events 1412, 1478, and 1405.
 
 ## Phase 5: Expand Bouldering Coverage
 
 - Add more manually selected bouldering fixtures only when they test a new shape or edge case.
-- Compare Men/Women result views.
-- Confirm the meaning of `/result/3` by inspecting other result URLs.
+- Compare one round-level endpoint shape such as `category_rounds[*].result_url`.
+- Decide whether normalized exports should include a small CLI/report for fixture inspection.
 - Keep tests fixture-based and avoid live network requests.
 
 ## Later Phases

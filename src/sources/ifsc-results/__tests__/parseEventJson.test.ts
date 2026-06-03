@@ -23,47 +23,74 @@ describe("parseEventMetadataJson", () => {
     });
   });
 
+  it("parses stable event metadata from the older event 1405 fixture", async () => {
+    const parsed = parseEventMetadataJson(await readFixture("event-1405.json"));
+
+    expect(parsed).toEqual({
+      sourceEventId: 1405,
+      name: "IFSC World Cup Keqiao 2025",
+      location: "Keqiao, CHN",
+      country: "CHN",
+      localStartDate: "2025-04-18",
+      localEndDate: "2025-04-20",
+      disciplines: ["boulder"],
+      disciplineCategoryCount: 2,
+      roundCount: 3
+    });
+  });
+
   it("throws for invalid JSON", () => {
     expect(() => parseEventMetadataJson("not-json")).toThrow("Expected valid JSON.");
   });
 });
 
 describe("parseEventResultJson", () => {
-  it("parses Boulder Men result summary from the event 1412 result fixture", async () => {
-    const parsed = parseEventResultJson(await readFixture("event-1412-result-3.json"));
+  it.each([
+    {
+      fixture: "event-1412-result-3.json",
+      eventName: "IFSC World Cup Innsbruck 2025",
+      disciplineCategory: "BOULDER Men",
+      category: "Men",
+      roundIds: [9399, 10119, 10121],
+      rankingCount: 112
+    },
+    {
+      fixture: "event-1478-result-7.json",
+      eventName: "World Climbing Series Bern 2026",
+      disciplineCategory: "BOULDER Women",
+      category: "Women",
+      roundIds: [10379, 10666, 10668],
+      rankingCount: 75
+    },
+    {
+      fixture: "event-1405-result-3.json",
+      eventName: "IFSC World Cup Keqiao 2025",
+      disciplineCategory: "BOULDER Men",
+      category: "Men",
+      roundIds: [9381, 9953, 9955],
+      rankingCount: 68
+    },
+    {
+      fixture: "event-1405-result-7.json",
+      eventName: "IFSC World Cup Keqiao 2025",
+      disciplineCategory: "BOULDER Women",
+      category: "Women",
+      roundIds: [9382, 9954, 9956],
+      rankingCount: 58
+    }
+  ])("parses $disciplineCategory result summary from $fixture", async (expectation) => {
+    const parsed = parseEventResultJson(await readFixture(expectation.fixture));
 
-    expect(parsed.eventName).toBe("IFSC World Cup Innsbruck 2025");
-    expect(parsed.disciplineCategory).toBe("BOULDER Men");
+    expect(parsed.eventName).toBe(expectation.eventName);
+    expect(parsed.disciplineCategory).toBe(expectation.disciplineCategory);
     expect(parsed.discipline).toBe("boulder");
-    expect(parsed.category).toBe("Men");
+    expect(parsed.category).toBe(expectation.category);
     expect(parsed.status).toBe("finished");
-    expect(parsed.categoryRounds).toEqual([
-      {
-        sourceCategoryRoundId: 9399,
-        kind: "boulder",
-        name: "Qualification",
-        category: "Men",
-        status: "finished",
-        resultUrl: "/api/v1/category_rounds/9399/results"
-      },
-      {
-        sourceCategoryRoundId: 10119,
-        kind: "boulder",
-        name: "Semi-final",
-        category: "Men",
-        status: "finished",
-        resultUrl: "/api/v1/category_rounds/10119/results"
-      },
-      {
-        sourceCategoryRoundId: 10121,
-        kind: "boulder",
-        name: "Final",
-        category: "Men",
-        status: "finished",
-        resultUrl: "/api/v1/category_rounds/10121/results"
-      }
-    ]);
-    expect(parsed.rankings).toHaveLength(112);
+    expect(parsed.categoryRounds.map((round) => round.name)).toEqual(["Qualification", "Semi-final", "Final"]);
+    expect(parsed.categoryRounds.map((round) => round.sourceCategoryRoundId)).toEqual(expectation.roundIds);
+    expect(parsed.categoryRounds.every((round) => round.kind === "boulder")).toBe(true);
+    expect(parsed.categoryRounds.every((round) => round.category === expectation.category)).toBe(true);
+    expect(parsed.rankings).toHaveLength(expectation.rankingCount);
   });
 
   it("parses the first-ranked athlete and per-round scores from the event 1412 result fixture", async () => {

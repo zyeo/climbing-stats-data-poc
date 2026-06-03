@@ -20,8 +20,9 @@ The first normalization tests use cached IFSC JSON fixtures for event 1412.
 
 Current app-facing records covered by tests:
 
-- Competition metadata from `/api/v1/events/1412`.
-- Boulder Men event/result context from `/api/v1/events/1412/result/3`.
+- Competition metadata from cached event metadata fixtures.
+- Boulder Men event/result context from `/api/v1/events/:eventId/result/3`.
+- Boulder Women event/result context from `/api/v1/events/:eventId/result/7`.
 - Category rounds from `category_rounds`.
 - The first-ranked athlete from `ranking`.
 - A minimal event result record using the athlete's final-round score.
@@ -69,4 +70,12 @@ Fixture-backed normalization currently preserves these IFSC identifiers:
 - `roundResults`
 - `boulderProblemResults`
 
-Fixture-backed tests cover all ranking rows from event 1412 and event 1478. This is still bouldering-only; lead and speed remain out of scope until separate fixtures justify their schema design.
+Fixture-backed tests cover all ranking rows from:
+
+- Event 1412 Boulder Men.
+- Event 1478 Boulder Men.
+- Event 1478 Boulder Women.
+- Event 1405 Boulder Men.
+- Event 1405 Boulder Women.
+
+This is still bouldering-only; lead and speed remain out of scope until separate fixtures justify their schema design.

@@ -422,3 +422,54 @@ Current milestone summary:
 - First-party JSON fixtures are the source target for the POC.
 - Bouldering-only parser and normalization tests now cover two events.
 - Lead, speed, crawling, database, frontend, and prediction work remain out of scope.
+
+## 2026-06-03
+
+### Women Boulder And Older Event Fixture Comparison
+
+Saved additional first-party IFSC JSON fixtures with the manual JSON fixture saver:
+
+```sh
+pnpm save:json-fixture -- --url "https://ifsc.results.info/api/v1/events/1478/result/7" --out event-1478-result-7.json --referer "https://ifsc.results.info/event/1478/general/boulder"
+pnpm save:json-fixture -- --url "https://ifsc.results.info/api/v1/events/1405" --out event-1405.json --referer "https://ifsc.results.info/event/1405/"
+pnpm save:json-fixture -- --url "https://ifsc.results.info/api/v1/events/1405/result/3" --out event-1405-result-3.json --referer "https://ifsc.results.info/event/1405/general/boulder"
+pnpm save:json-fixture -- --url "https://ifsc.results.info/api/v1/events/1405/result/7" --out event-1405-result-7.json --referer "https://ifsc.results.info/event/1405/general/boulder"
+```
+
+Added fixtures:
+
+- `src/sources/ifsc-results/fixtures/event-1478-result-7.json`
+- `src/sources/ifsc-results/fixtures/event-1405.json`
+- `src/sources/ifsc-results/fixtures/event-1405-result-3.json`
+- `src/sources/ifsc-results/fixtures/event-1405-result-7.json`
+
+Updated tests:
+
+- Parser tests now cover event 1405 metadata and Boulder Men/Women result summaries.
+- Full normalization tests now cover all ranking rows, round rows, and boulder ascent rows for current Boulder Men/Women fixtures.
+- Added explicit Women Boulder normalization coverage using event 1478's first-ranked athlete.
+
+Documented findings:
+
+- Event metadata exposes `full_results_url` values for each discipline/category.
+- In the inspected bouldering fixtures, `result/3` maps to Boulder Men and `result/7` maps to Boulder Women.
+- Future code should continue to use metadata and response `dcat` values rather than assuming result IDs globally.
+- Event 1405 gives an older World Cup comparison with `low_zone: null`, while event 1478 Women preserves boolean `low_zone` values.
+
+Verification so far:
+
+```sh
+pnpm test
+```
+
+Results:
+
+- `pnpm test` passed:
+  - 8 test files passed.
+  - 54 tests passed.
+
+Known limitations:
+
+- This remains bouldering-only.
+- No round-level endpoint parser has been implemented yet.
+- No live network calls are used in tests.

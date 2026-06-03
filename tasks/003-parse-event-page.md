@@ -16,7 +16,9 @@ Parse minimal event metadata from a cached IFSC event page fixture.
 
 The raw event HTML fixture was a Vue app shell, so useful event data is now being parsed from cached first-party JSON fixtures instead of server-rendered HTML.
 
-Initial JSON parser tests cover:
+Current JSON parser tests cover:
 
 - `event-1412.json` event metadata.
 - `event-1412-result-3.json` Boulder Men result summary and first-ranked athlete round scores.
+- `event-1405.json` event metadata.
+- Boulder Men and Boulder Women result summaries from cached fixtures for events 1405, 1412, and 1478.

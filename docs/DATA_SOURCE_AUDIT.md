@@ -149,3 +149,70 @@ The comparison supports the current assumption that `/api/v1/events/:eventId` pr
 - Event 1412 has `low_zone: null` on all ascent rows.
 - Event 1478 has boolean `low_zone` values on all ascent rows.
 - Both fixtures use `starting_group` on qualification rows and omit it on later rounds.
+
+## 2026-06-03: Women Boulder And Older Event Comparison Fixtures
+
+### Fixtures
+
+- Event 1478 Boulder Women result fixture: `src/sources/ifsc-results/fixtures/event-1478-result-7.json`
+- Event 1405 metadata fixture: `src/sources/ifsc-results/fixtures/event-1405.json`
+- Event 1405 Boulder Men result fixture: `src/sources/ifsc-results/fixtures/event-1405-result-3.json`
+- Event 1405 Boulder Women result fixture: `src/sources/ifsc-results/fixtures/event-1405-result-7.json`
+
+Fetch commands:
+
+```sh
+pnpm save:json-fixture -- \
+  --url "https://ifsc.results.info/api/v1/events/1478/result/7" \
+  --out event-1478-result-7.json \
+  --referer "https://ifsc.results.info/event/1478/general/boulder"
+
+pnpm save:json-fixture -- \
+  --url "https://ifsc.results.info/api/v1/events/1405" \
+  --out event-1405.json \
+  --referer "https://ifsc.results.info/event/1405/"
+
+pnpm save:json-fixture -- \
+  --url "https://ifsc.results.info/api/v1/events/1405/result/3" \
+  --out event-1405-result-3.json \
+  --referer "https://ifsc.results.info/event/1405/general/boulder"
+
+pnpm save:json-fixture -- \
+  --url "https://ifsc.results.info/api/v1/events/1405/result/7" \
+  --out event-1405-result-7.json \
+  --referer "https://ifsc.results.info/event/1405/general/boulder"
+```
+
+### Endpoint Role Notes
+
+Event metadata for 1412, 1478, and 1405 all expose `d_cats[*].full_results_url`.
+
+For the bouldering fixtures inspected so far:
+
+- `result/3` maps to `BOULDER Men`.
+- `result/7` maps to `BOULDER Women`.
+
+This mapping is documented from event metadata rather than assumed from the URL number alone. Future parser work should continue to trust the response `dcat` and metadata `full_results_url`, not hard-code result IDs globally.
+
+### Fixture Comparison
+
+| Fixture | Role | Ranking rows | Round rows | Ascent rows | Notes |
+| --- | --- | ---: | ---: | ---: | --- |
+| `event-1478-result-7.json` | Boulder Women, Bern 2026 | 75 | 107 | 503 | Uses boolean `low_zone` values. |
+| `event-1405-result-3.json` | Boulder Men, Keqiao 2025 | 68 | 100 | 468 | Source `low_zone` values are `null`. |
+| `event-1405-result-7.json` | Boulder Women, Keqiao 2025 | 58 | 91 | 422 | Source `low_zone` values are `null`. |
+
+Event 1405 metadata:
+
+- Event name: `IFSC World Cup Keqiao 2025`
+- Location: `Keqiao, CHN`
+- Dates: `2025-04-18` to `2025-04-20`
+- Disciplines: `boulder`
+- Discipline/category entries: Boulder Men and Boulder Women.
+
+### Parser And Normalizer Implications
+
+- The current JSON parser handles Boulder Men and Boulder Women result fixtures with the same broad shape.
+- The bouldering normalizer can normalize all rows from the added fixtures without source-specific branching by gender.
+- `low_zone: null` is normalized as absent, while boolean `low_zone` values are preserved.
+- The fixture set still covers only bouldering. Lead and speed should remain separate future schema decisions.
