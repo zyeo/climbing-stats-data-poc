@@ -9,6 +9,7 @@ export interface IfscRoundResultInput {
   rank?: number;
   score?: string;
   startingGroup?: string;
+  startOrder?: number;
   sourceUrl?: string;
   sourceCategoryRoundId?: string;
 }
@@ -23,6 +24,7 @@ export function normalizeRoundResult(input: IfscRoundResultInput): RoundResult {
     rank: input.rank,
     score: input.score,
     startingGroup: input.startingGroup,
+    startOrder: input.startOrder,
     source: "ifsc-results",
     sourceUrl: input.sourceUrl,
     sourceCategoryRoundId: input.sourceCategoryRoundId

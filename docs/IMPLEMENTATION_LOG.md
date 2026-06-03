@@ -526,3 +526,39 @@ Results:
   - 9 test files passed.
   - 60 tests passed.
 - `pnpm typecheck` passed.
+
+### Round Start Order Normalization
+
+Promoted athlete round start order into the normalized `RoundResult` schema.
+
+Updated:
+
+- `src/schemas/roundResult.ts`
+- `src/normalize/normalizeRoundResult.ts`
+- `src/normalize/normalizeIfscEventResult.ts`
+- `src/sources/ifsc-results/parseEventJson.ts`
+- `src/normalize/__tests__/normalizeRoundResult.test.ts`
+- `docs/SCHEMA.md`
+- `docs/DATA_SOURCE_AUDIT.md`
+- `docs/DECISIONS.md`
+- `tasks/004-normalize-event-data.md`
+
+Notes:
+
+- `RoundResult.startOrder` is optional because the full event result fixtures inspected so far do not include `start_order`.
+- Category-round fixtures do include `start_order`, and fixture-backed tests now prove it can be normalized.
+- Boulder scoring settings remain source-only for now; they are parsed/documented but not promoted into normalized schemas.
+
+Verification so far:
+
+```sh
+pnpm test
+pnpm typecheck
+```
+
+Results:
+
+- `pnpm test` passed:
+  - 10 test files passed.
+  - 62 tests passed.
+- `pnpm typecheck` passed.

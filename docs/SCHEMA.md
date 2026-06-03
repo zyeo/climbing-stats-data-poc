@@ -27,6 +27,7 @@ Current app-facing records covered by tests:
 - The first-ranked athlete from `ranking`.
 - A minimal event result record using the athlete's final-round score.
 - Round result records using the athlete's per-round scores.
+- Start order on round result records when available from round-level fixtures.
 - Boulder problem-level results from the athlete's final-round `ascents`.
 
 These tests intentionally keep the schemas small while preserving source traceability fields.
@@ -47,6 +48,10 @@ The first detailed performance schema is bouldering-only.
 Lead and speed-specific performance details are intentionally deferred until real fixtures and tests justify those schema decisions.
 
 `RoundResult` represents one athlete's rank and score within one round. It bridges the event-level `Result` record and the bouldering problem-level records.
+
+`RoundResult.startOrder` is optional and represents the athlete's running order within that specific round. It is currently available from category-round fixtures such as `/api/v1/category_rounds/10668/results`, but not from the full event result fixtures inspected so far.
+
+Round-level boulder scoring settings, such as points per zone/top and fall deduction, remain source-only for now. They are parsed and documented from category-round fixtures, but they are not yet promoted into a normalized schema because no app-facing workflow depends on them yet.
 
 ## Source Identifiers
 

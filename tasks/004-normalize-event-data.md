@@ -18,6 +18,8 @@ Initial fixture-backed normalization tests now cover event 1412, event 1478, and
 
 Full-fixture tests now normalize every Boulder Men/Women ranking row from the current bouldering result fixtures, including all round rows and boulder problem/ascent rows.
 
+`RoundResult.startOrder` is now part of the normalized schema when a round-level fixture provides it. Boulder scoring settings remain source-specific and are not normalized yet.
+
 ## Remaining Out Of Scope
 
 - Lead normalization.

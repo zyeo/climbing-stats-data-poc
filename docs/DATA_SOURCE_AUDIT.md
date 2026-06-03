@@ -249,3 +249,5 @@ Compared with `event-1478-result-7.json`, the final-round ranking data matches t
 ### Current Decision
 
 Use the full event result endpoint (`/api/v1/events/:eventId/result/:resultId`) as the primary parser/normalizer input for the current POC. Keep category-round endpoints as optional audit/enrichment fixtures when round-specific fields such as `start_order`, route lists, scoring settings, appeals, or live-state fields become important.
+
+After this comparison, `start_order` was promoted to the normalized `RoundResult.startOrder` field because it is athlete-round-specific and likely useful for later order-effect analysis. Boulder scoring settings remain source-only until a normalized round scoring configuration is needed.

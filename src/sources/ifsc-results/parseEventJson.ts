@@ -46,6 +46,7 @@ const eventResultSchema = z.object({
           rank: z.number().nullable().optional(),
           score: z.string().nullable().optional(),
           starting_group: z.string().nullable().optional(),
+          start_order: z.number().nullable().optional(),
           ascents: z.array(
             z.object({
               route_id: z.number().nullable().optional(),
@@ -158,6 +159,7 @@ export interface IfscParsedEventResult {
       rank?: number;
       score?: string;
       startingGroup?: string;
+      startOrder?: number;
       ascentCount: number;
       ascents: Array<{
         sourceRouteId?: number;
@@ -290,6 +292,7 @@ export function parseEventResultJson(json: string): IfscParsedEventResult {
         rank: round.rank ?? undefined,
         score: round.score ?? undefined,
         startingGroup: round.starting_group ?? undefined,
+        startOrder: round.start_order ?? undefined,
         ascentCount: round.ascents?.length ?? 0,
         ascents: round.ascents?.map((ascent) => ({
           sourceRouteId: ascent.route_id ?? undefined,

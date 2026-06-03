@@ -9,6 +9,7 @@ export const roundResultSchema = z.object({
   rank: z.number().int().positive().optional(),
   score: z.string().optional(),
   startingGroup: z.string().optional(),
+  startOrder: z.number().int().positive().optional(),
   source: z.literal("ifsc-results"),
   sourceUrl: z.string().url().optional(),
   sourceCategoryRoundId: z.string().optional()

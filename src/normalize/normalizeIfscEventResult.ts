@@ -124,6 +124,7 @@ export function normalizeIfscBoulderingEventResult(input: NormalizeIfscEventResu
         rank: sourceRound.rank,
         score: sourceRound.score,
         startingGroup: sourceRound.startingGroup,
+        startOrder: sourceRound.startOrder,
         sourceUrl: input.resultSourceUrl,
         sourceCategoryRoundId: String(sourceRound.sourceCategoryRoundId)
       });
