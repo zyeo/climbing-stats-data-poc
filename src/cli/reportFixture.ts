@@ -32,6 +32,17 @@ export interface NormalizedFixtureReport {
     false: number;
     absent: number;
   };
+  qualification: {
+    athleteAscentCounts: number[];
+    routeInventory: number;
+    routeSets: Array<{
+      startingGroup?: string;
+      athleteCount: number;
+      routeCount: number;
+      routeNames: string[];
+      sourceRouteIds: string[];
+    }>;
+  };
 }
 
 function usage(): string {
@@ -86,6 +97,14 @@ export function parseReportFixtureArgs(args: string[]): ReportFixtureOptions {
   return { eventId, resultId };
 }
 
+function uniqueSortedNumbers(values: number[]): number[] {
+  return [...new Set(values)].sort((a, b) => a - b);
+}
+
+function uniqueSortedStrings(values: string[]): string[] {
+  return [...new Set(values)].sort((a, b) => a.localeCompare(b, "en"));
+}
+
 export async function createNormalizedFixtureReport(options: ReportFixtureOptions): Promise<NormalizedFixtureReport> {
   const metadataFixture = join(process.cwd(), IFSC_JSON_FIXTURE_DIR, `event-${options.eventId}.json`);
   const resultFixture = join(process.cwd(), IFSC_JSON_FIXTURE_DIR, `event-${options.eventId}-result-${options.resultId}.json`);
@@ -111,6 +130,61 @@ export async function createNormalizedFixtureReport(options: ReportFixtureOption
     },
     { true: 0, false: 0, absent: 0 }
   );
+  const qualificationRounds = result.rankings.flatMap((ranking) => {
+    const qualificationRound = ranking.rounds.find((round) => round.roundName === "Qualification");
+
+    return qualificationRound ? [qualificationRound] : [];
+  });
+  const routeSetsByGroup = new Map<
+    string,
+    {
+      startingGroup?: string;
+      athleteCount: number;
+      routeNames: string[];
+      sourceRouteIds: string[];
+    }
+  >();
+
+  for (const qualificationRound of qualificationRounds) {
+    const key = qualificationRound.startingGroup ?? "";
+    const routeSet = routeSetsByGroup.get(key) ?? {
+      startingGroup: qualificationRound.startingGroup,
+      athleteCount: 0,
+      routeNames: [],
+      sourceRouteIds: []
+    };
+
+    routeSet.athleteCount += 1;
+
+    for (const ascent of qualificationRound.ascents) {
+      if (ascent.routeName) {
+        routeSet.routeNames.push(ascent.routeName);
+      }
+
+      if (ascent.sourceRouteId) {
+        routeSet.sourceRouteIds.push(String(ascent.sourceRouteId));
+      }
+    }
+
+    routeSetsByGroup.set(key, routeSet);
+  }
+
+  const qualificationRouteSets = [...routeSetsByGroup.values()]
+    .map((routeSet) => {
+      const sourceRouteIds = uniqueSortedStrings(routeSet.sourceRouteIds);
+
+      return {
+        startingGroup: routeSet.startingGroup,
+        athleteCount: routeSet.athleteCount,
+        routeCount: sourceRouteIds.length,
+        routeNames: uniqueSortedStrings(routeSet.routeNames),
+        sourceRouteIds
+      };
+    })
+    .sort((left, right) => (left.startingGroup ?? "").localeCompare(right.startingGroup ?? "", "en"));
+  const qualificationRouteInventory = uniqueSortedStrings(
+    qualificationRouteSets.flatMap((routeSet) => routeSet.sourceRouteIds)
+  ).length;
 
   return {
     eventId: options.eventId,
@@ -129,7 +203,12 @@ export async function createNormalizedFixtureReport(options: ReportFixtureOption
       boulderProblemResults: normalized.boulderProblemResults.length,
       unrankedResults: normalized.results.filter((resultRecord) => resultRecord.rank === undefined).length
     },
-    lowZoneCounts
+    lowZoneCounts,
+    qualification: {
+      athleteAscentCounts: uniqueSortedNumbers(qualificationRounds.map((round) => round.ascentCount)),
+      routeInventory: qualificationRouteInventory,
+      routeSets: qualificationRouteSets
+    }
   };
 }
 

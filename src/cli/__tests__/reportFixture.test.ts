@@ -43,7 +43,44 @@ describe("createNormalizedFixtureReport", () => {
         true: 416,
         false: 87,
         absent: 0
+      },
+      qualification: {
+        athleteAscentCounts: [5],
+        routeInventory: 10,
+        routeSets: [
+          {
+            startingGroup: "Group A",
+            athleteCount: 37,
+            routeCount: 5,
+            routeNames: ["1", "2", "3", "4", "5"],
+            sourceRouteIds: ["18742", "18743", "18744", "18745", "18746"]
+          },
+          {
+            startingGroup: "Group B",
+            athleteCount: 38,
+            routeCount: 5,
+            routeNames: ["1", "2", "3", "4", "5"],
+            sourceRouteIds: ["18747", "18748", "18749", "18750", "18751"]
+          }
+        ]
       }
+    });
+  });
+
+  it("summarizes one-group qualification fixtures separately from two-group fixtures", async () => {
+    const report = await createNormalizedFixtureReport({ eventId: 1408, resultId: 3 });
+
+    expect(report.qualification).toEqual({
+      athleteAscentCounts: [5],
+      routeInventory: 5,
+      routeSets: [
+        {
+          athleteCount: 56,
+          routeCount: 5,
+          routeNames: ["1", "2", "3", "4", "5"],
+          sourceRouteIds: ["16547", "16548", "16549", "16550", "16551"]
+        }
+      ]
     });
   });
 });

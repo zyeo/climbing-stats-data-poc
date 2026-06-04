@@ -664,6 +664,47 @@ Results:
   - 65 tests passed.
 - `pnpm typecheck` passed.
 
+### Group-Aware Qualification Report Summary
+
+Added qualification grouping details to the local fixture report CLI.
+
+Updated:
+
+- `src/cli/reportFixture.ts`
+- `src/cli/__tests__/reportFixture.test.ts`
+- `docs/DECISIONS.md`
+- `docs/IMPLEMENTATION_LOG.md`
+
+Behavior added:
+
+- Reports the unique per-athlete qualification ascent counts.
+- Reports the qualification route inventory size.
+- Reports route sets by `startingGroup` when the source exposes Group A and Group B.
+- Reports one ungrouped route set when the source does not expose qualification groups, as in event 1408 Curitiba.
+
+Examples:
+
+- Event 1478 Boulder Women reports 10 qualification route records split into Group A and Group B, with 5 qualification ascents per athlete.
+- Event 1408 Boulder Men reports one 5-route qualification set, with 5 qualification ascents per athlete.
+
+Verification:
+
+```sh
+pnpm report:fixture -- --event 1478 --result 7
+pnpm report:fixture -- --event 1408 --result 3
+pnpm test
+pnpm typecheck
+```
+
+Results:
+
+- `pnpm report:fixture -- --event 1478 --result 7` reported 5 qualification ascents per athlete and 10 route records split across Group A and Group B.
+- `pnpm report:fixture -- --event 1408 --result 3` reported 5 qualification ascents per athlete and one ungrouped 5-route qualification set.
+- `pnpm test` passed:
+  - 12 test files passed.
+  - 67 tests passed.
+- `pnpm typecheck` passed.
+
 ### Bouldering Data Model Overview
 
 Added a durable model overview and bouldering POC conclusion.

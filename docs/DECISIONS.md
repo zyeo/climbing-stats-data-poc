@@ -25,3 +25,9 @@ Reason: Boulder-level analysis needs a shared problem identity so multiple athle
 Decision: Exploratory analysis datasets should use curated manifests that point to committed fixtures. They should not introduce crawling, bulk downloading, or live-network tests.
 
 Reason: The project may be useful for analysis experiments, but the original safety constraints still matter. A manifest makes the dataset explicit, reviewable, and reproducible while keeping fixture expansion manual and intentional.
+
+## 2026-06-04: Treat Qualification Route Sets As Group-Aware
+
+Decision: Boulder qualification route records must preserve qualification grouping in reports and analysis. Do not treat two 5-boulder Group A and Group B route sets as one athlete's 10-boulder workload.
+
+Reason: In the inspected 2025 Men Boulder World Cup fixtures, every athlete has 5 qualification ascent rows. Most events expose separate Group A and Group B route sets, while Curitiba exposes one qualification route set because the field was small enough for one group.
