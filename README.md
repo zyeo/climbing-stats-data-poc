@@ -21,6 +21,7 @@ pnpm typecheck
 pnpm save:fixture
 pnpm save:json-fixture
 pnpm report:fixture
+pnpm analyze:2025-men-boulder
 pnpm scrape:event
 pnpm scrape:rankings
 ```
@@ -34,6 +35,8 @@ See `docs/DATA_MODEL.md` for the current normalized bouldering relationships.
 See `docs/POC_CHECKPOINT.md` for the current POC conclusion and recommended pause point.
 
 Exploratory analysis work should live under `experiments/` and use curated manifests that point to committed fixtures.
+
+Generated local report outputs belong under `reports/`, which is git-ignored because reports can be regenerated from committed fixtures.
 
 ## Workflow
 

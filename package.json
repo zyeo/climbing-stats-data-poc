@@ -9,6 +9,7 @@
     "save:fixture": "tsx src/cli/saveFixture.ts",
     "save:json-fixture": "tsx src/cli/saveJsonFixture.ts",
     "report:fixture": "tsx src/cli/reportFixture.ts",
+    "analyze:2025-men-boulder": "tsx src/cli/analyzeMenBoulderWorldCup2025.ts",
     "scrape:event": "tsx src/cli/scrapeEvent.ts",
     "scrape:rankings": "tsx src/cli/scrapeRankings.ts"
   },

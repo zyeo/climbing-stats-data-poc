@@ -46,6 +46,23 @@ Current normalized totals:
 - 103 shared boulder/problem records.
 - 3,179 athlete boulder/problem result rows.
 
+Current exploratory analysis command:
+
+```sh
+pnpm analyze:2025-men-boulder
+```
+
+This command reads the committed manifest fixtures and reports season-level descriptive summaries:
+
+- event count and normalized row totals
+- top and zone totals
+- per-event top/zone rates
+- per-round top/zone rates
+- qualification grouping shapes
+- repeated athlete counts across the six events
+
+It does not fetch live data and should remain descriptive exploration, not production analytics or prediction code.
+
 Fixture shape note:
 
 - Every athlete in the current 2025 Men Boulder World Cup fixtures has 5 qualification ascent rows.

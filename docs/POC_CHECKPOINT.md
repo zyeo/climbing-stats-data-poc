@@ -158,5 +158,7 @@ Current rule:
 - Use committed fixtures only in tests.
 - Do not add crawling or bulk download behavior.
 - Treat analysis code as scratch learning unless it is later promoted intentionally.
+- Keep generated report outputs in `reports/`, which is git-ignored.
+- Keep descriptive analysis separate from the future app's frontend, database, and production analytics design.
 
-The first experiment is `experiments/2025-men-boulder-world-cup`, a partial manifest-backed dataset for 2025 IFSC World Cup Men Boulder using existing committed fixtures.
+The first experiment is `experiments/2025-men-boulder-world-cup`, a fixture-backed dataset for the six 2025 IFSC World Cup Men Boulder events currently listed in the manifest.

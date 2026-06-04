@@ -10,6 +10,19 @@ export interface ReportFixtureOptions {
   resultId: number;
 }
 
+export interface BooleanCountSummary {
+  true: number;
+  false: number;
+  absent: number;
+}
+
+export interface AscentCountSummary {
+  attempts: number;
+  top: BooleanCountSummary;
+  zone: BooleanCountSummary;
+  lowZone: BooleanCountSummary;
+}
+
 export interface NormalizedFixtureReport {
   eventId: number;
   resultId: number;
@@ -32,6 +45,25 @@ export interface NormalizedFixtureReport {
     false: number;
     absent: number;
   };
+  ascentCounts: AscentCountSummary;
+  roundSummaries: Array<{
+    roundName: string;
+    athletes: number;
+    attempts: number;
+    routeInventory: number;
+    ascentCounts: AscentCountSummary;
+  }>;
+  boulderSummaries: Array<{
+    roundName: string;
+    startingGroup?: string;
+    routeName?: string;
+    sourceRouteId?: string;
+    attempts: number;
+    topRate: number;
+    zoneRate: number;
+    lowZoneRate?: number;
+    ascentCounts: AscentCountSummary;
+  }>;
   qualification: {
     athleteAscentCounts: number[];
     routeInventory: number;
@@ -103,6 +135,55 @@ function uniqueSortedNumbers(values: number[]): number[] {
 
 function uniqueSortedStrings(values: string[]): string[] {
   return [...new Set(values)].sort((a, b) => a.localeCompare(b, "en"));
+}
+
+function emptyBooleanCountSummary(): BooleanCountSummary {
+  return {
+    true: 0,
+    false: 0,
+    absent: 0
+  };
+}
+
+function emptyAscentCountSummary(): AscentCountSummary {
+  return {
+    attempts: 0,
+    top: emptyBooleanCountSummary(),
+    zone: emptyBooleanCountSummary(),
+    lowZone: emptyBooleanCountSummary()
+  };
+}
+
+function addBooleanValue(counts: BooleanCountSummary, value: boolean | undefined): void {
+  if (value === true) {
+    counts.true += 1;
+  } else if (value === false) {
+    counts.false += 1;
+  } else {
+    counts.absent += 1;
+  }
+}
+
+function addAscentCounts(
+  counts: AscentCountSummary,
+  ascent: {
+    top?: boolean;
+    zone?: boolean;
+    lowZone?: boolean;
+  }
+): void {
+  counts.attempts += 1;
+  addBooleanValue(counts.top, ascent.top);
+  addBooleanValue(counts.zone, ascent.zone);
+  addBooleanValue(counts.lowZone, ascent.lowZone);
+}
+
+function rate(trueCount: number, attempts: number): number {
+  if (attempts === 0) {
+    return 0;
+  }
+
+  return Number((trueCount / attempts).toFixed(4));
 }
 
 export async function createNormalizedFixtureReport(options: ReportFixtureOptions): Promise<NormalizedFixtureReport> {
@@ -185,6 +266,106 @@ export async function createNormalizedFixtureReport(options: ReportFixtureOption
   const qualificationRouteInventory = uniqueSortedStrings(
     qualificationRouteSets.flatMap((routeSet) => routeSet.sourceRouteIds)
   ).length;
+  const ascentCounts = emptyAscentCountSummary();
+  const roundSummaryByName = new Map<
+    string,
+    {
+      roundName: string;
+      athleteIds: Set<number>;
+      sourceRouteIds: Set<string>;
+      ascentCounts: AscentCountSummary;
+    }
+  >();
+  const boulderSummaryByKey = new Map<
+    string,
+    {
+      roundName: string;
+      startingGroup?: string;
+      routeName?: string;
+      sourceRouteId?: string;
+      ascentCounts: AscentCountSummary;
+    }
+  >();
+
+  for (const ranking of result.rankings) {
+    for (const round of ranking.rounds) {
+      const roundSummary = roundSummaryByName.get(round.roundName) ?? {
+        roundName: round.roundName,
+        athleteIds: new Set<number>(),
+        sourceRouteIds: new Set<string>(),
+        ascentCounts: emptyAscentCountSummary()
+      };
+      roundSummary.athleteIds.add(ranking.sourceAthleteId);
+
+      for (const ascent of round.ascents) {
+        addAscentCounts(ascentCounts, ascent);
+        addAscentCounts(roundSummary.ascentCounts, ascent);
+
+        if (ascent.sourceRouteId) {
+          roundSummary.sourceRouteIds.add(String(ascent.sourceRouteId));
+        }
+
+        const boulderKey = [
+          round.roundName,
+          round.startingGroup ?? "",
+          ascent.sourceRouteId ? String(ascent.sourceRouteId) : "",
+          ascent.routeName ?? ""
+        ].join("|");
+        const boulderSummary = boulderSummaryByKey.get(boulderKey) ?? {
+          roundName: round.roundName,
+          startingGroup: round.startingGroup,
+          routeName: ascent.routeName,
+          sourceRouteId: ascent.sourceRouteId ? String(ascent.sourceRouteId) : undefined,
+          ascentCounts: emptyAscentCountSummary()
+        };
+
+        addAscentCounts(boulderSummary.ascentCounts, ascent);
+        boulderSummaryByKey.set(boulderKey, boulderSummary);
+      }
+
+      roundSummaryByName.set(round.roundName, roundSummary);
+    }
+  }
+  const roundOrder = new Map(result.categoryRounds.map((round, index) => [round.name, index]));
+  const roundSummaries = [...roundSummaryByName.values()]
+    .map((roundSummary) => ({
+      roundName: roundSummary.roundName,
+      athletes: roundSummary.athleteIds.size,
+      attempts: roundSummary.ascentCounts.attempts,
+      routeInventory: roundSummary.sourceRouteIds.size,
+      ascentCounts: roundSummary.ascentCounts
+    }))
+    .sort((left, right) => (roundOrder.get(left.roundName) ?? 999) - (roundOrder.get(right.roundName) ?? 999));
+  const boulderSummaries = [...boulderSummaryByKey.values()]
+    .map((boulderSummary) => ({
+      roundName: boulderSummary.roundName,
+      startingGroup: boulderSummary.startingGroup,
+      routeName: boulderSummary.routeName,
+      sourceRouteId: boulderSummary.sourceRouteId,
+      attempts: boulderSummary.ascentCounts.attempts,
+      topRate: rate(boulderSummary.ascentCounts.top.true, boulderSummary.ascentCounts.attempts),
+      zoneRate: rate(boulderSummary.ascentCounts.zone.true, boulderSummary.ascentCounts.attempts),
+      lowZoneRate:
+        boulderSummary.ascentCounts.lowZone.absent === boulderSummary.ascentCounts.attempts
+          ? undefined
+          : rate(boulderSummary.ascentCounts.lowZone.true, boulderSummary.ascentCounts.attempts),
+      ascentCounts: boulderSummary.ascentCounts
+    }))
+    .sort((left, right) => {
+      const roundCompare = (roundOrder.get(left.roundName) ?? 999) - (roundOrder.get(right.roundName) ?? 999);
+
+      if (roundCompare !== 0) {
+        return roundCompare;
+      }
+
+      const groupCompare = (left.startingGroup ?? "").localeCompare(right.startingGroup ?? "", "en");
+
+      if (groupCompare !== 0) {
+        return groupCompare;
+      }
+
+      return (left.routeName ?? "").localeCompare(right.routeName ?? "", "en", { numeric: true });
+    });
 
   return {
     eventId: options.eventId,
@@ -204,6 +385,9 @@ export async function createNormalizedFixtureReport(options: ReportFixtureOption
       unrankedResults: normalized.results.filter((resultRecord) => resultRecord.rank === undefined).length
     },
     lowZoneCounts,
+    ascentCounts,
+    roundSummaries,
+    boulderSummaries,
     qualification: {
       athleteAscentCounts: uniqueSortedNumbers(qualificationRounds.map((round) => round.ascentCount)),
       routeInventory: qualificationRouteInventory,

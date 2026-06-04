@@ -664,6 +664,80 @@ Results:
   - 65 tests passed.
 - `pnpm typecheck` passed.
 
+### Exploratory Report And Season Analysis Summaries
+
+Expanded local exploratory reporting while keeping generated outputs out of git.
+
+Updated:
+
+- `.gitignore`
+- `package.json`
+- `README.md`
+- `experiments/2025-men-boulder-world-cup/README.md`
+- `docs/POC_CHECKPOINT.md`
+- `docs/IMPLEMENTATION_LOG.md`
+- `src/cli/reportFixture.ts`
+- `src/cli/__tests__/reportFixture.test.ts`
+
+Created:
+
+- `src/cli/analyzeMenBoulderWorldCup2025.ts`
+- `src/cli/__tests__/analyzeMenBoulderWorldCup2025.test.ts`
+
+Behavior added:
+
+- `reports/` is git-ignored for local generated report outputs.
+- `pnpm report:fixture` now includes:
+  - overall top, zone, and low-zone counts
+  - per-round attempt/top/zone summaries
+  - per-boulder attempt/top-rate/zone-rate summaries
+  - existing qualification group-aware summaries
+- `pnpm analyze:2025-men-boulder` reads the committed 2025 Men Boulder World Cup manifest and reports:
+  - event count and normalized row totals
+  - top and zone totals
+  - per-event top and zone rates
+  - per-round top and zone rates
+  - qualification grouping shapes
+  - repeated athlete counts across the six events
+
+Current season-level analysis totals:
+
+- 6 events
+- 479 athlete event-result rows
+- 675 athlete round-result rows
+- 103 shared boulder/problem records
+- 3,179 athlete boulder/problem result rows
+- 897 tops
+- 2,157 zones
+- 185 unique athletes
+- 112 athletes appearing in multiple events
+
+Boundary note:
+
+- These commands are descriptive, fixture-backed POC tools.
+- They do not fetch live data.
+- They do not add frontend, database, ML, prediction, crawling, lead, or speed scope.
+
+Verification:
+
+```sh
+pnpm report:fixture -- --event 1408 --result 3
+pnpm report:fixture -- --event 1478 --result 7
+pnpm analyze:2025-men-boulder
+pnpm test
+pnpm typecheck
+```
+
+Results:
+
+- `pnpm report:fixture -- --event 1408 --result 3` reported top/zone/low-zone counts, round summaries, boulder summaries, and one qualification route set.
+- `pnpm report:fixture -- --event 1478 --result 7` reported top/zone/low-zone counts, round summaries, boulder summaries, and Group A/B qualification route sets.
+- `pnpm analyze:2025-men-boulder` completed from committed fixtures.
+- `pnpm test` passed:
+  - 13 test files passed.
+  - 69 tests passed.
+- `pnpm typecheck` passed.
+
 ### Group-Aware Qualification Report Summary
 
 Added qualification grouping details to the local fixture report CLI.
