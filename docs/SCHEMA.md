@@ -95,4 +95,8 @@ Fixture-backed tests cover all ranking rows from:
 
 This is still bouldering-only; lead and speed remain out of scope until separate fixtures justify their schema design.
 
-The current bouldering fixtures each normalize to 18 shared `BoulderProblem` records: 10 qualification problems across two starting groups, 4 semifinal problems, and 4 final problems. Athlete-level `BoulderProblemResult` rows link back to these shared problem records.
+The original bouldering POC fixtures mostly normalize to 18 shared `BoulderProblem` records: 10 qualification source route records across two starting groups, 4 semifinal route records, and 4 final route records. Athlete-level `BoulderProblemResult` rows link back to these shared problem records.
+
+The 10 qualification route records are not 10 boulders per athlete. In the inspected 2025 Men Boulder World Cup fixtures, every athlete has 5 qualification ascent rows. Most events expose separate 5-boulder route sets for Group A and Group B.
+
+Event 1408 Curitiba is an important current edge case: it normalizes to 13 shared `BoulderProblem` records because its source fixture does not expose separate Group A and Group B qualification route sets; its athlete rows expose one 5-boulder qualification route set.

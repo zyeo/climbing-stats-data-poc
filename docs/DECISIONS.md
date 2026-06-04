@@ -19,3 +19,9 @@ Follow-up: `startOrder` is now normalized on `RoundResult` because it is athlete
 Decision: Add `BoulderProblem` as a first-class normalized bouldering record and link athlete-level `BoulderProblemResult` rows to it with `boulderProblemId`.
 
 Reason: Boulder-level analysis needs a shared problem identity so multiple athlete ascents can be grouped by the same route/problem within a round. Keeping only athlete-specific problem results made each athlete's Boulder 1 look independent instead of relating those rows back to the same underlying boulder.
+
+## 2026-06-03: Keep Exploratory Analysis Manifest-Driven
+
+Decision: Exploratory analysis datasets should use curated manifests that point to committed fixtures. They should not introduce crawling, bulk downloading, or live-network tests.
+
+Reason: The project may be useful for analysis experiments, but the original safety constraints still matter. A manifest makes the dataset explicit, reviewable, and reproducible while keeping fixture expansion manual and intentional.

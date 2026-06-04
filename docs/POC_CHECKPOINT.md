@@ -147,3 +147,16 @@ Good next non-coding step:
 > Decide whether the next project is the real app architecture plan or a small ingestion package extracted from this POC.
 
 Do not start crawling, database work, frontend work, lead/speed modeling, or analytics expansion from this repo by default.
+
+## Post-Checkpoint Experiments
+
+Exploratory analysis can happen in this repo if it stays clearly separated from the core POC.
+
+Current rule:
+
+- Use `experiments/` for exploratory manifests and notes.
+- Use committed fixtures only in tests.
+- Do not add crawling or bulk download behavior.
+- Treat analysis code as scratch learning unless it is later promoted intentionally.
+
+The first experiment is `experiments/2025-men-boulder-world-cup`, a partial manifest-backed dataset for 2025 IFSC World Cup Men Boulder using existing committed fixtures.

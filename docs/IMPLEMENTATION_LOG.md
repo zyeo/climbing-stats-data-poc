@@ -591,10 +591,11 @@ Notes:
 
 - `BoulderProblem` represents the shared boulder/route within a round.
 - `BoulderProblemResult` now links to the shared problem with `boulderProblemId`.
-- Current full bouldering fixtures each normalize to 18 shared boulder problems:
-  - 10 qualification problems across two starting groups.
+- Current full bouldering fixtures mostly normalize to 18 shared boulder problem records:
+  - 10 qualification source route records across two starting groups.
   - 4 semifinal problems.
   - 4 final problems.
+- This route inventory does not mean each athlete climbs 10 qualification boulders; each athlete's qualification row has 5 ascent records.
 - The report CLI now prints both shared `boulderProblems` and athlete-level `boulderProblemResults`.
 
 Local report command run:
@@ -620,6 +621,47 @@ Results:
 - `pnpm test` passed:
   - 11 test files passed.
   - 63 tests passed.
+- `pnpm typecheck` passed.
+
+### 2025 Men Boulder World Cup Experiment Seed
+
+Started an explicitly exploratory, manifest-driven analysis dataset for 2025 IFSC World Cup Men Boulder.
+
+Created:
+
+- `experiments/2025-men-boulder-world-cup/README.md`
+- `experiments/2025-men-boulder-world-cup/manifest.json`
+- `src/experiments/menBoulderWorldCup2025.ts`
+- `src/experiments/__tests__/menBoulderWorldCup2025.test.ts`
+
+Updated:
+
+- `README.md`
+- `docs/DECISIONS.md`
+- `docs/POC_CHECKPOINT.md`
+- `docs/IMPLEMENTATION_LOG.md`
+
+Notes:
+
+- The manifest is intentionally partial and starts with existing committed fixtures only:
+  - Event 1405: `IFSC World Cup Keqiao 2025`
+  - Event 1412: `IFSC World Cup Innsbruck 2025`
+- The experiment is scoped to 2025, World Cup, Boulder, Men.
+- Tests validate the manifest and normalize every listed event from cached fixtures.
+- This does not add crawling, bulk fetching, live-network tests, ML, database, frontend, lead, or speed code.
+
+Verification:
+
+```sh
+pnpm test
+pnpm typecheck
+```
+
+Results:
+
+- `pnpm test` passed:
+  - 12 test files passed.
+  - 65 tests passed.
 - `pnpm typecheck` passed.
 
 ### Bouldering Data Model Overview
@@ -694,4 +736,76 @@ Results:
 - `pnpm test` passed:
   - 11 test files passed.
   - 63 tests passed.
+- `pnpm typecheck` passed.
+
+### Complete 2025 Men Boulder World Cup Fixture Set
+
+Completed the exploratory 2025 IFSC World Cup Men Boulder dataset with the remaining official Boulder World Cup stops listed by IFSC Results.
+
+Already present:
+
+- Event 1405: `IFSC World Cup Keqiao 2025`
+- Event 1412: `IFSC World Cup Innsbruck 2025`
+
+Added metadata and Boulder Men result fixtures:
+
+- Event 1408: `IFSC World Cup Curitiba 2025`
+- Event 1409: `IFSC World Cup Salt Lake City 2025`
+- Event 1410: `IFSC World Cup Prague 2025`
+- Event 1411: `IFSC World Cup Bern 2025`
+
+Fixture commands run:
+
+```sh
+pnpm save:json-fixture -- --url "https://ifsc.results.info/api/v1/events/1408" --out event-1408.json --referer "https://ifsc.results.info/event/1408/general/boulder"
+pnpm save:json-fixture -- --url "https://ifsc.results.info/api/v1/events/1408/result/3" --out event-1408-result-3.json --referer "https://ifsc.results.info/event/1408/general/boulder"
+pnpm save:json-fixture -- --url "https://ifsc.results.info/api/v1/events/1409" --out event-1409.json --referer "https://ifsc.results.info/event/1409/general/boulder"
+pnpm save:json-fixture -- --url "https://ifsc.results.info/api/v1/events/1409/result/3" --out event-1409-result-3.json --referer "https://ifsc.results.info/event/1409/general/boulder"
+pnpm save:json-fixture -- --url "https://ifsc.results.info/api/v1/events/1410" --out event-1410.json --referer "https://ifsc.results.info/event/1410/general/boulder"
+pnpm save:json-fixture -- --url "https://ifsc.results.info/api/v1/events/1410/result/3" --out event-1410-result-3.json --referer "https://ifsc.results.info/event/1410/general/boulder"
+pnpm save:json-fixture -- --url "https://ifsc.results.info/api/v1/events/1411" --out event-1411.json --referer "https://ifsc.results.info/event/1411/general/boulder"
+pnpm save:json-fixture -- --url "https://ifsc.results.info/api/v1/events/1411/result/3" --out event-1411-result-3.json --referer "https://ifsc.results.info/event/1411/general/boulder"
+```
+
+Updated:
+
+- `experiments/2025-men-boulder-world-cup/manifest.json`
+- `experiments/2025-men-boulder-world-cup/README.md`
+- `src/experiments/menBoulderWorldCup2025.ts`
+- `src/experiments/__tests__/menBoulderWorldCup2025.test.ts`
+- `docs/DATA_MODEL.md`
+- `docs/SCHEMA.md`
+- `docs/IMPLEMENTATION_LOG.md`
+
+Normalized dataset totals:
+
+- 6 event result fixtures
+- 479 athlete event-result rows
+- 103 shared boulder/problem records
+- 3,179 athlete boulder/problem result rows
+
+Fixture size notes:
+
+- The eight newly added fixture files total about 1.1 MB.
+- The full IFSC fixture directory is about 2.5 MB.
+- This is small enough for the laptop and public repository at the current exploratory scale.
+
+Known fixture-shape note:
+
+- Every athlete in the current 2025 Men Boulder World Cup fixtures has 5 qualification ascent rows.
+- Most current full bouldering fixtures normalize to 18 shared boulder problem records because the source exposes two separate qualification route sets: 5 boulders for Group A and 5 boulders for Group B, plus 4 semifinal and 4 final boulders.
+- Event 1408 Curitiba normalizes to 13 shared boulder problems because the source does not expose separate Group A and Group B qualification route sets; its athlete rows expose one 5-boulder qualification route set, plus 4 semifinal and 4 final boulders.
+
+Verification:
+
+```sh
+pnpm test
+pnpm typecheck
+```
+
+Results:
+
+- `pnpm test` passed:
+  - 12 test files passed.
+  - 65 tests passed.
 - `pnpm typecheck` passed.

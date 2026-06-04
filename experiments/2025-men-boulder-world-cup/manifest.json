@@ -1,0 +1,89 @@
+{
+  "id": "2025-men-boulder-world-cup",
+  "name": "2025 IFSC World Cup Men Boulder",
+  "status": "fixture-backed",
+  "description": "Curated exploratory dataset for 2025 IFSC World Cup Men Boulder. This manifest uses committed fixtures only and was expanded manually from IFSC Results metadata.",
+  "source": "ifsc-results",
+  "season": 2025,
+  "discipline": "boulder",
+  "category": "Men",
+  "rules": {
+    "fetching": "manual-low-volume-only",
+    "testsUseLiveNetwork": false,
+    "crawl": false
+  },
+  "events": [
+    {
+      "eventId": 1405,
+      "name": "IFSC World Cup Keqiao 2025",
+      "location": "Keqiao, CHN",
+      "metadataUrl": "https://ifsc.results.info/api/v1/events/1405",
+      "resultUrl": "https://ifsc.results.info/api/v1/events/1405/result/3",
+      "metadataFixture": "event-1405.json",
+      "resultFixture": "event-1405-result-3.json",
+      "status": "fixture-ready",
+      "notes": "Existing committed 2025 Boulder Men fixture."
+    },
+    {
+      "eventId": 1408,
+      "name": "IFSC World Cup Curitiba 2025",
+      "location": "Curitiba, BRA",
+      "metadataUrl": "https://ifsc.results.info/api/v1/events/1408",
+      "resultUrl": "https://ifsc.results.info/api/v1/events/1408/result/3",
+      "metadataFixture": "event-1408.json",
+      "resultFixture": "event-1408-result-3.json",
+      "status": "fixture-ready",
+      "notes": "Boulder Men result URL confirmed from event metadata."
+    },
+    {
+      "eventId": 1409,
+      "name": "IFSC World Cup Salt Lake City 2025",
+      "location": "Salt Lake City, USA",
+      "metadataUrl": "https://ifsc.results.info/api/v1/events/1409",
+      "resultUrl": "https://ifsc.results.info/api/v1/events/1409/result/3",
+      "metadataFixture": "event-1409.json",
+      "resultFixture": "event-1409-result-3.json",
+      "status": "fixture-ready",
+      "notes": "Boulder Men result URL confirmed from event metadata."
+    },
+    {
+      "eventId": 1410,
+      "name": "IFSC World Cup Prague 2025",
+      "location": "Prague, CZE",
+      "metadataUrl": "https://ifsc.results.info/api/v1/events/1410",
+      "resultUrl": "https://ifsc.results.info/api/v1/events/1410/result/3",
+      "metadataFixture": "event-1410.json",
+      "resultFixture": "event-1410-result-3.json",
+      "status": "fixture-ready",
+      "notes": "Boulder Men result URL confirmed from event metadata."
+    },
+    {
+      "eventId": 1411,
+      "name": "IFSC World Cup Bern 2025",
+      "location": "Bern, SUI",
+      "metadataUrl": "https://ifsc.results.info/api/v1/events/1411",
+      "resultUrl": "https://ifsc.results.info/api/v1/events/1411/result/3",
+      "metadataFixture": "event-1411.json",
+      "resultFixture": "event-1411-result-3.json",
+      "status": "fixture-ready",
+      "notes": "Boulder Men result URL confirmed from event metadata."
+    },
+    {
+      "eventId": 1412,
+      "name": "IFSC World Cup Innsbruck 2025",
+      "location": "Innsbruck, AUT",
+      "metadataUrl": "https://ifsc.results.info/api/v1/events/1412",
+      "resultUrl": "https://ifsc.results.info/api/v1/events/1412/result/3",
+      "metadataFixture": "event-1412.json",
+      "resultFixture": "event-1412-result-3.json",
+      "status": "fixture-ready",
+      "notes": "Existing committed 2025 Boulder Men fixture."
+    }
+  ],
+  "nextEventsToIdentify": [],
+  "knownLimitations": [
+    "No live network calls are used by tests.",
+    "Additional events must be added manually through saved fixtures.",
+    "The manifest should not be treated as a crawler seed list."
+  ]
+}

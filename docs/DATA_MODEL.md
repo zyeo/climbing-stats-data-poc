@@ -154,17 +154,21 @@ Full bouldering normalization tests cover:
 - Event 1405 Boulder Men.
 - Event 1405 Boulder Women.
 
-Each current full bouldering fixture normalizes to:
+The original full bouldering POC fixtures mostly normalize to:
 
 - 3 rounds.
 - 18 shared `BoulderProblem` records.
 - Athlete-level `BoulderProblemResult` rows linked to those shared problems.
 
-The 18 shared boulders come from:
+The 18 shared boulder records come from the source route inventory:
 
-- 10 qualification problems across two starting groups.
+- 10 qualification route records across two starting groups.
 - 4 semifinal problems.
 - 4 final problems.
+
+This does not mean one athlete climbs 10 qualification boulders. In the inspected 2025 Men Boulder World Cup fixtures, every athlete has 5 qualification ascent rows. Most events expose two separate 5-boulder qualification route sets, one for Group A and one for Group B.
+
+The 2025 Men Boulder World Cup experiment adds a useful edge case: event 1408 Curitiba normalizes to 13 shared `BoulderProblem` records because its source fixture does not expose separate Group A and Group B qualification route sets; its athlete rows expose one 5-boulder qualification route set.
 
 ## Source-Only Data
 

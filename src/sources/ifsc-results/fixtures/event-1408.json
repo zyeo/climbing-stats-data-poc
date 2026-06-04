@@ -1,0 +1,766 @@
+{
+  "id": 1408,
+  "name": "IFSC World Cup Curitiba 2025",
+  "type": "classic",
+  "league_id": 1,
+  "rounds": [
+    {
+      "id": 2580,
+      "name": "Qualification"
+    },
+    {
+      "id": 2708,
+      "name": "Semi-final"
+    },
+    {
+      "id": 2709,
+      "name": "Final"
+    }
+  ],
+  "league_season_id": 443,
+  "season_id": 37,
+  "starts_at": "2025-05-16 03:00:00 UTC",
+  "ends_at": "2025-05-19 02:59:00 UTC",
+  "local_start_date": "2025-05-16",
+  "local_end_date": "2025-05-18",
+  "timezone": {
+    "value": "America/Sao_Paulo"
+  },
+  "location": "Curitiba, BRA",
+  "registration_url": "/api/v1/events/1408/registrations",
+  "public_information": {
+    "organiser_name": null,
+    "organiser_url": null,
+    "venue_name": null,
+    "description": null
+  },
+  "cup_name": "IFSC Climbing World Cup 2025",
+  "country": "BRA",
+  "registration_deadline": "2025-05-01T23:59:00.000Z",
+  "registration_opens_at": "2024-05-16T03:00:00.000Z",
+  "removal_deadline": "2025-05-01T23:59:00.000Z",
+  "athlete_self_registration": false,
+  "team_official_self_registration": false,
+  "event_logo": "https://d1n1qj9geboqnb.cloudfront.net/ifsc/public/6f183c4kh388tadalppzlbm9823f",
+  "series_logo": "https://d1n1qj9geboqnb.cloudfront.net/ifsc/public/8yrc8nrdxzxum8hdx8a7482ymgiw",
+  "cover": null,
+  "infosheet_url": "https://ifsc.results.info/events/1408/infosheet",
+  "additional_info_url": null,
+  "is_paraclimbing_event": false,
+  "self_judged": false,
+  "d_cats": [
+    {
+      "dcat_id": 3,
+      "event_id": 1408,
+      "dcat_name": "BOULDER Men",
+      "discipline_kind": "boulder",
+      "category_id": 6340,
+      "category_name": "Men",
+      "status": "finished",
+      "status_as_of": "2025-10-02 07:18:42 UTC",
+      "ranking_as_of": "2026-04-22 08:20:42 UTC",
+      "category_rounds": [
+        {
+          "category_round_id": 9391,
+          "kind": "boulder",
+          "name": "Qualification",
+          "category": "Men",
+          "schedule": null,
+          "status": "finished",
+          "status_as_of": "2025-05-16 18:45:24 UTC",
+          "result_url": "/api/v1/category_rounds/9391/results",
+          "starting_groups": [],
+          "combined_stages": [],
+          "round": {
+            "league_round_id": 1
+          },
+          "format_identifier": "boulder_one_group_ifsc_2025",
+          "format": "IFSC: 1 group 2025 (points)",
+          "routes": [
+            {
+              "id": 16547,
+              "name": "1",
+              "startlist": "/api/v1/routes/16547/startlist"
+            },
+            {
+              "id": 16548,
+              "name": "2",
+              "startlist": "/api/v1/routes/16548/startlist"
+            },
+            {
+              "id": 16549,
+              "name": "3",
+              "startlist": "/api/v1/routes/16549/startlist"
+            },
+            {
+              "id": 16550,
+              "name": "4",
+              "startlist": "/api/v1/routes/16550/startlist"
+            },
+            {
+              "id": 16551,
+              "name": "5",
+              "startlist": "/api/v1/routes/16551/startlist"
+            }
+          ]
+        },
+        {
+          "category_round_id": 9987,
+          "kind": "boulder",
+          "name": "Semi-final",
+          "category": "Men",
+          "schedule": null,
+          "status": "finished",
+          "status_as_of": "2025-05-17 15:46:22 UTC",
+          "result_url": "/api/v1/category_rounds/9987/results",
+          "starting_groups": [],
+          "combined_stages": [],
+          "round": {
+            "league_round_id": 2
+          },
+          "format_identifier": "boulder_one_group_ifsc_2025",
+          "format": "IFSC: 1 group 2025 (points)",
+          "routes": [
+            {
+              "id": 16375,
+              "name": "1",
+              "startlist": "/api/v1/routes/16375/startlist"
+            },
+            {
+              "id": 16376,
+              "name": "2",
+              "startlist": "/api/v1/routes/16376/startlist"
+            },
+            {
+              "id": 16377,
+              "name": "3",
+              "startlist": "/api/v1/routes/16377/startlist"
+            },
+            {
+              "id": 16378,
+              "name": "4",
+              "startlist": "/api/v1/routes/16378/startlist"
+            }
+          ]
+        },
+        {
+          "category_round_id": 9989,
+          "kind": "boulder",
+          "name": "Final",
+          "category": "Men",
+          "schedule": null,
+          "status": "finished",
+          "status_as_of": "2025-05-17 22:15:52 UTC",
+          "result_url": "/api/v1/category_rounds/9989/results",
+          "starting_groups": [],
+          "combined_stages": [],
+          "round": {
+            "league_round_id": 3
+          },
+          "format_identifier": "boulder_finals_ifsc_2025",
+          "format": "IFSC: finals 2025 (points)",
+          "routes": [
+            {
+              "id": 16383,
+              "name": "1",
+              "startlist": "/api/v1/routes/16383/startlist"
+            },
+            {
+              "id": 16384,
+              "name": "2",
+              "startlist": "/api/v1/routes/16384/startlist"
+            },
+            {
+              "id": 16385,
+              "name": "3",
+              "startlist": "/api/v1/routes/16385/startlist"
+            },
+            {
+              "id": 16386,
+              "name": "4",
+              "startlist": "/api/v1/routes/16386/startlist"
+            }
+          ]
+        }
+      ],
+      "full_results_url": "/api/v1/events/1408/result/3",
+      "top_3_results": [
+        {
+          "athlete_id": 13040,
+          "squad_id": null,
+          "rank": 1,
+          "name": "ANRAKU Sorato",
+          "bib_number": "51",
+          "firstname": "Sorato",
+          "lastname": "ANRAKU",
+          "country": "JPN",
+          "organisation_id": 25,
+          "flag_url": "https://d1n1qj9geboqnb.cloudfront.net/flags/JPN.png"
+        },
+        {
+          "athlete_id": 11675,
+          "squad_id": null,
+          "rank": 2,
+          "name": "SCHALCK Mejdi",
+          "bib_number": "56",
+          "firstname": "Mejdi",
+          "lastname": "SCHALCK",
+          "country": "FRA",
+          "organisation_id": 10,
+          "flag_url": "https://d1n1qj9geboqnb.cloudfront.net/flags/FRA.png"
+        },
+        {
+          "athlete_id": 2276,
+          "squad_id": null,
+          "rank": 3,
+          "name": "NARASAKI Tomoa",
+          "bib_number": "54",
+          "firstname": "Tomoa",
+          "lastname": "NARASAKI",
+          "country": "JPN",
+          "organisation_id": 25,
+          "flag_url": "https://d1n1qj9geboqnb.cloudfront.net/flags/JPN.png"
+        }
+      ]
+    },
+    {
+      "dcat_id": 7,
+      "event_id": 1408,
+      "dcat_name": "BOULDER Women",
+      "discipline_kind": "boulder",
+      "category_id": 6341,
+      "category_name": "Women",
+      "status": "finished",
+      "status_as_of": "2025-10-02 07:18:42 UTC",
+      "ranking_as_of": "2026-04-22 08:20:46 UTC",
+      "category_rounds": [
+        {
+          "category_round_id": 9392,
+          "kind": "boulder",
+          "name": "Qualification",
+          "category": "Women",
+          "schedule": null,
+          "status": "finished",
+          "status_as_of": "2025-05-16 18:41:09 UTC",
+          "result_url": "/api/v1/category_rounds/9392/results",
+          "starting_groups": [],
+          "combined_stages": [],
+          "round": {
+            "league_round_id": 1
+          },
+          "format_identifier": "boulder_one_group_ifsc_2025",
+          "format": "IFSC: 1 group 2025 (points)",
+          "routes": [
+            {
+              "id": 16552,
+              "name": "1",
+              "startlist": "/api/v1/routes/16552/startlist"
+            },
+            {
+              "id": 16553,
+              "name": "2",
+              "startlist": "/api/v1/routes/16553/startlist"
+            },
+            {
+              "id": 16554,
+              "name": "3",
+              "startlist": "/api/v1/routes/16554/startlist"
+            },
+            {
+              "id": 16555,
+              "name": "4",
+              "startlist": "/api/v1/routes/16555/startlist"
+            },
+            {
+              "id": 16556,
+              "name": "5",
+              "startlist": "/api/v1/routes/16556/startlist"
+            }
+          ]
+        },
+        {
+          "category_round_id": 9988,
+          "kind": "boulder",
+          "name": "Semi-final",
+          "category": "Women",
+          "schedule": null,
+          "status": "finished",
+          "status_as_of": "2025-05-18 15:42:29 UTC",
+          "result_url": "/api/v1/category_rounds/9988/results",
+          "starting_groups": [],
+          "combined_stages": [],
+          "round": {
+            "league_round_id": 2
+          },
+          "format_identifier": "boulder_one_group_ifsc_2025",
+          "format": "IFSC: 1 group 2025 (points)",
+          "routes": [
+            {
+              "id": 16379,
+              "name": "1",
+              "startlist": "/api/v1/routes/16379/startlist"
+            },
+            {
+              "id": 16380,
+              "name": "2",
+              "startlist": "/api/v1/routes/16380/startlist"
+            },
+            {
+              "id": 16381,
+              "name": "3",
+              "startlist": "/api/v1/routes/16381/startlist"
+            },
+            {
+              "id": 16382,
+              "name": "4",
+              "startlist": "/api/v1/routes/16382/startlist"
+            }
+          ]
+        },
+        {
+          "category_round_id": 9990,
+          "kind": "boulder",
+          "name": "Final",
+          "category": "Women",
+          "schedule": null,
+          "status": "finished",
+          "status_as_of": "2025-05-18 22:05:09 UTC",
+          "result_url": "/api/v1/category_rounds/9990/results",
+          "starting_groups": [],
+          "combined_stages": [],
+          "round": {
+            "league_round_id": 3
+          },
+          "format_identifier": "boulder_finals_ifsc_2025",
+          "format": "IFSC: finals 2025 (points)",
+          "routes": [
+            {
+              "id": 16387,
+              "name": "1",
+              "startlist": "/api/v1/routes/16387/startlist"
+            },
+            {
+              "id": 16388,
+              "name": "2",
+              "startlist": "/api/v1/routes/16388/startlist"
+            },
+            {
+              "id": 16389,
+              "name": "3",
+              "startlist": "/api/v1/routes/16389/startlist"
+            },
+            {
+              "id": 16390,
+              "name": "4",
+              "startlist": "/api/v1/routes/16390/startlist"
+            }
+          ]
+        }
+      ],
+      "full_results_url": "/api/v1/events/1408/result/7",
+      "top_3_results": [
+        {
+          "athlete_id": 11621,
+          "squad_id": null,
+          "rank": 1,
+          "name": "MEIGNAN Naïlé",
+          "bib_number": "4",
+          "firstname": "Naïlé",
+          "lastname": "MEIGNAN",
+          "country": "FRA",
+          "organisation_id": 10,
+          "flag_url": "https://d1n1qj9geboqnb.cloudfront.net/flags/FRA.png"
+        },
+        {
+          "athlete_id": 11462,
+          "squad_id": null,
+          "rank": 2,
+          "name": "BERTONE Oriane",
+          "bib_number": "6",
+          "firstname": "Oriane",
+          "lastname": "BERTONE",
+          "country": "FRA",
+          "organisation_id": 10,
+          "flag_url": "https://d1n1qj9geboqnb.cloudfront.net/flags/FRA.png"
+        },
+        {
+          "athlete_id": 947,
+          "squad_id": null,
+          "rank": 3,
+          "name": "MORONI Camilla",
+          "bib_number": "12",
+          "firstname": "Camilla",
+          "lastname": "MORONI",
+          "country": "ITA",
+          "organisation_id": 13,
+          "flag_url": "https://d1n1qj9geboqnb.cloudfront.net/flags/ITA.png"
+        }
+      ]
+    }
+  ],
+  "dcats": [
+    {
+      "dcat_id": 3,
+      "event_id": 1408,
+      "dcat_name": "BOULDER Men",
+      "discipline_kind": "boulder",
+      "category_id": 6340,
+      "category_name": "Men",
+      "status": "finished",
+      "status_as_of": "2025-10-02 07:18:42 UTC",
+      "ranking_as_of": "2026-04-22 08:20:42 UTC",
+      "category_rounds": [
+        {
+          "category_round_id": 9391,
+          "kind": "boulder",
+          "name": "Qualification",
+          "category": "Men",
+          "schedule": null,
+          "status": "finished",
+          "status_as_of": "2025-05-16 18:45:24 UTC",
+          "result_url": "/api/v1/category_rounds/9391/results",
+          "starting_groups": [],
+          "combined_stages": [],
+          "round": {
+            "league_round_id": 1
+          },
+          "format_identifier": "boulder_one_group_ifsc_2025",
+          "format": "IFSC: 1 group 2025 (points)",
+          "routes": [
+            {
+              "id": 16547,
+              "name": "1",
+              "startlist": "/api/v1/routes/16547/startlist"
+            },
+            {
+              "id": 16548,
+              "name": "2",
+              "startlist": "/api/v1/routes/16548/startlist"
+            },
+            {
+              "id": 16549,
+              "name": "3",
+              "startlist": "/api/v1/routes/16549/startlist"
+            },
+            {
+              "id": 16550,
+              "name": "4",
+              "startlist": "/api/v1/routes/16550/startlist"
+            },
+            {
+              "id": 16551,
+              "name": "5",
+              "startlist": "/api/v1/routes/16551/startlist"
+            }
+          ]
+        },
+        {
+          "category_round_id": 9987,
+          "kind": "boulder",
+          "name": "Semi-final",
+          "category": "Men",
+          "schedule": null,
+          "status": "finished",
+          "status_as_of": "2025-05-17 15:46:22 UTC",
+          "result_url": "/api/v1/category_rounds/9987/results",
+          "starting_groups": [],
+          "combined_stages": [],
+          "round": {
+            "league_round_id": 2
+          },
+          "format_identifier": "boulder_one_group_ifsc_2025",
+          "format": "IFSC: 1 group 2025 (points)",
+          "routes": [
+            {
+              "id": 16375,
+              "name": "1",
+              "startlist": "/api/v1/routes/16375/startlist"
+            },
+            {
+              "id": 16376,
+              "name": "2",
+              "startlist": "/api/v1/routes/16376/startlist"
+            },
+            {
+              "id": 16377,
+              "name": "3",
+              "startlist": "/api/v1/routes/16377/startlist"
+            },
+            {
+              "id": 16378,
+              "name": "4",
+              "startlist": "/api/v1/routes/16378/startlist"
+            }
+          ]
+        },
+        {
+          "category_round_id": 9989,
+          "kind": "boulder",
+          "name": "Final",
+          "category": "Men",
+          "schedule": null,
+          "status": "finished",
+          "status_as_of": "2025-05-17 22:15:52 UTC",
+          "result_url": "/api/v1/category_rounds/9989/results",
+          "starting_groups": [],
+          "combined_stages": [],
+          "round": {
+            "league_round_id": 3
+          },
+          "format_identifier": "boulder_finals_ifsc_2025",
+          "format": "IFSC: finals 2025 (points)",
+          "routes": [
+            {
+              "id": 16383,
+              "name": "1",
+              "startlist": "/api/v1/routes/16383/startlist"
+            },
+            {
+              "id": 16384,
+              "name": "2",
+              "startlist": "/api/v1/routes/16384/startlist"
+            },
+            {
+              "id": 16385,
+              "name": "3",
+              "startlist": "/api/v1/routes/16385/startlist"
+            },
+            {
+              "id": 16386,
+              "name": "4",
+              "startlist": "/api/v1/routes/16386/startlist"
+            }
+          ]
+        }
+      ],
+      "full_results_url": "/api/v1/events/1408/result/3",
+      "top_3_results": [
+        {
+          "athlete_id": 13040,
+          "squad_id": null,
+          "rank": 1,
+          "name": "ANRAKU Sorato",
+          "bib_number": "51",
+          "firstname": "Sorato",
+          "lastname": "ANRAKU",
+          "country": "JPN",
+          "organisation_id": 25,
+          "flag_url": "https://d1n1qj9geboqnb.cloudfront.net/flags/JPN.png"
+        },
+        {
+          "athlete_id": 11675,
+          "squad_id": null,
+          "rank": 2,
+          "name": "SCHALCK Mejdi",
+          "bib_number": "56",
+          "firstname": "Mejdi",
+          "lastname": "SCHALCK",
+          "country": "FRA",
+          "organisation_id": 10,
+          "flag_url": "https://d1n1qj9geboqnb.cloudfront.net/flags/FRA.png"
+        },
+        {
+          "athlete_id": 2276,
+          "squad_id": null,
+          "rank": 3,
+          "name": "NARASAKI Tomoa",
+          "bib_number": "54",
+          "firstname": "Tomoa",
+          "lastname": "NARASAKI",
+          "country": "JPN",
+          "organisation_id": 25,
+          "flag_url": "https://d1n1qj9geboqnb.cloudfront.net/flags/JPN.png"
+        }
+      ]
+    },
+    {
+      "dcat_id": 7,
+      "event_id": 1408,
+      "dcat_name": "BOULDER Women",
+      "discipline_kind": "boulder",
+      "category_id": 6341,
+      "category_name": "Women",
+      "status": "finished",
+      "status_as_of": "2025-10-02 07:18:42 UTC",
+      "ranking_as_of": "2026-04-22 08:20:46 UTC",
+      "category_rounds": [
+        {
+          "category_round_id": 9392,
+          "kind": "boulder",
+          "name": "Qualification",
+          "category": "Women",
+          "schedule": null,
+          "status": "finished",
+          "status_as_of": "2025-05-16 18:41:09 UTC",
+          "result_url": "/api/v1/category_rounds/9392/results",
+          "starting_groups": [],
+          "combined_stages": [],
+          "round": {
+            "league_round_id": 1
+          },
+          "format_identifier": "boulder_one_group_ifsc_2025",
+          "format": "IFSC: 1 group 2025 (points)",
+          "routes": [
+            {
+              "id": 16552,
+              "name": "1",
+              "startlist": "/api/v1/routes/16552/startlist"
+            },
+            {
+              "id": 16553,
+              "name": "2",
+              "startlist": "/api/v1/routes/16553/startlist"
+            },
+            {
+              "id": 16554,
+              "name": "3",
+              "startlist": "/api/v1/routes/16554/startlist"
+            },
+            {
+              "id": 16555,
+              "name": "4",
+              "startlist": "/api/v1/routes/16555/startlist"
+            },
+            {
+              "id": 16556,
+              "name": "5",
+              "startlist": "/api/v1/routes/16556/startlist"
+            }
+          ]
+        },
+        {
+          "category_round_id": 9988,
+          "kind": "boulder",
+          "name": "Semi-final",
+          "category": "Women",
+          "schedule": null,
+          "status": "finished",
+          "status_as_of": "2025-05-18 15:42:29 UTC",
+          "result_url": "/api/v1/category_rounds/9988/results",
+          "starting_groups": [],
+          "combined_stages": [],
+          "round": {
+            "league_round_id": 2
+          },
+          "format_identifier": "boulder_one_group_ifsc_2025",
+          "format": "IFSC: 1 group 2025 (points)",
+          "routes": [
+            {
+              "id": 16379,
+              "name": "1",
+              "startlist": "/api/v1/routes/16379/startlist"
+            },
+            {
+              "id": 16380,
+              "name": "2",
+              "startlist": "/api/v1/routes/16380/startlist"
+            },
+            {
+              "id": 16381,
+              "name": "3",
+              "startlist": "/api/v1/routes/16381/startlist"
+            },
+            {
+              "id": 16382,
+              "name": "4",
+              "startlist": "/api/v1/routes/16382/startlist"
+            }
+          ]
+        },
+        {
+          "category_round_id": 9990,
+          "kind": "boulder",
+          "name": "Final",
+          "category": "Women",
+          "schedule": null,
+          "status": "finished",
+          "status_as_of": "2025-05-18 22:05:09 UTC",
+          "result_url": "/api/v1/category_rounds/9990/results",
+          "starting_groups": [],
+          "combined_stages": [],
+          "round": {
+            "league_round_id": 3
+          },
+          "format_identifier": "boulder_finals_ifsc_2025",
+          "format": "IFSC: finals 2025 (points)",
+          "routes": [
+            {
+              "id": 16387,
+              "name": "1",
+              "startlist": "/api/v1/routes/16387/startlist"
+            },
+            {
+              "id": 16388,
+              "name": "2",
+              "startlist": "/api/v1/routes/16388/startlist"
+            },
+            {
+              "id": 16389,
+              "name": "3",
+              "startlist": "/api/v1/routes/16389/startlist"
+            },
+            {
+              "id": 16390,
+              "name": "4",
+              "startlist": "/api/v1/routes/16390/startlist"
+            }
+          ]
+        }
+      ],
+      "full_results_url": "/api/v1/events/1408/result/7",
+      "top_3_results": [
+        {
+          "athlete_id": 11621,
+          "squad_id": null,
+          "rank": 1,
+          "name": "MEIGNAN Naïlé",
+          "bib_number": "4",
+          "firstname": "Naïlé",
+          "lastname": "MEIGNAN",
+          "country": "FRA",
+          "organisation_id": 10,
+          "flag_url": "https://d1n1qj9geboqnb.cloudfront.net/flags/FRA.png"
+        },
+        {
+          "athlete_id": 11462,
+          "squad_id": null,
+          "rank": 2,
+          "name": "BERTONE Oriane",
+          "bib_number": "6",
+          "firstname": "Oriane",
+          "lastname": "BERTONE",
+          "country": "FRA",
+          "organisation_id": 10,
+          "flag_url": "https://d1n1qj9geboqnb.cloudfront.net/flags/FRA.png"
+        },
+        {
+          "athlete_id": 947,
+          "squad_id": null,
+          "rank": 3,
+          "name": "MORONI Camilla",
+          "bib_number": "12",
+          "firstname": "Camilla",
+          "lastname": "MORONI",
+          "country": "ITA",
+          "organisation_id": 13,
+          "flag_url": "https://d1n1qj9geboqnb.cloudfront.net/flags/ITA.png"
+        }
+      ]
+    }
+  ],
+  "disciplines": [
+    {
+      "id": 1720,
+      "kind": "boulder",
+      "settings": null
+    }
+  ],
+  "computed_combined_categories": [],
+  "team_ranking_disciplines": [
+    "boulder"
+  ],
+  "team_ranking_url": "/api/v1/events/1408/team_results/",
+  "time_rankings": false,
+  "time_ranking_url": null,
+  "custom_event_registration_fields": []
+}

@@ -33,6 +33,8 @@ See `docs/DATA_MODEL.md` for the current normalized bouldering relationships.
 
 See `docs/POC_CHECKPOINT.md` for the current POC conclusion and recommended pause point.
 
+Exploratory analysis work should live under `experiments/` and use curated manifests that point to committed fixtures.
+
 ## Workflow
 
 Before coding, read `AGENTS.md`, the relevant docs in `docs/`, and the current task in `tasks/`. Keep changes small and update `docs/IMPLEMENTATION_LOG.md` after meaningful work.
