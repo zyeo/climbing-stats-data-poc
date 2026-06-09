@@ -31,3 +31,9 @@ Reason: The project may be useful for analysis experiments, but the original saf
 Decision: Boulder qualification route records must preserve qualification grouping in reports and analysis. Do not treat two 5-boulder Group A and Group B route sets as one athlete's 10-boulder workload.
 
 Reason: In the inspected 2025 Men Boulder World Cup fixtures, every athlete has 5 qualification ascent rows. Most events expose separate Group A and Group B route sets, while Curitiba exposes one qualification route set because the field was small enough for one group.
+
+## 2026-06-09: Export Normalized Tables For Python Analysis
+
+Decision: Python analysis should consume generated CSV exports from the tested TypeScript normalized model rather than independently parsing raw IFSC JSON fixtures.
+
+Reason: Keeping parsing and normalization in one tested pipeline avoids duplicated source assumptions and lets the Python workspace focus on exploratory data analysis and basic machine-learning concepts. Generated CSV files remain git-ignored because they are reproducible from committed fixtures.

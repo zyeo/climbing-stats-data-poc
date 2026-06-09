@@ -22,6 +22,7 @@ pnpm save:fixture
 pnpm save:json-fixture
 pnpm report:fixture
 pnpm analyze:2025-men-boulder
+pnpm export:2025-men-boulder
 pnpm scrape:event
 pnpm scrape:rankings
 ```
@@ -37,6 +38,8 @@ See `docs/POC_CHECKPOINT.md` for the current POC conclusion and recommended paus
 Exploratory analysis work should live under `experiments/` and use curated manifests that point to committed fixtures.
 
 Generated local report outputs belong under `reports/`, which is git-ignored because reports can be regenerated from committed fixtures.
+
+The exploratory Python workspace lives under `analysis/`. Run `pnpm export:2025-men-boulder` to bridge the tested TypeScript normalized model into git-ignored CSV files for pandas and scikit-learn.
 
 ## Workflow
 

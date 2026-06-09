@@ -664,6 +664,75 @@ Results:
   - 65 tests passed.
 - `pnpm typecheck` passed.
 
+## 2026-06-09
+
+### Normalized TypeScript-To-Python Export Bridge
+
+Added a reproducible bridge from the tested TypeScript normalized model to the exploratory Python analysis workspace.
+
+Created:
+
+- `src/cli/exportMenBoulderWorldCup2025.ts`
+- `src/cli/__tests__/exportMenBoulderWorldCup2025.test.ts`
+- `analysis/README.md`
+- `analysis/main.py`
+- `analysis/pyproject.toml`
+- `analysis/uv.lock`
+- `analysis/.python-version`
+
+Updated:
+
+- `.gitignore`
+- `package.json`
+- `README.md`
+- `docs/DECISIONS.md`
+- `docs/POC_CHECKPOINT.md`
+- `docs/IMPLEMENTATION_LOG.md`
+
+Behavior added:
+
+- `pnpm export:2025-men-boulder` generates normalized CSV tables under `analysis/data/generated/2025-men-boulder-world-cup/`.
+- Generated CSV data and `analysis/.venv/` are git-ignored.
+- The exporter uses the existing fixture-backed TypeScript parser and normalizer instead of duplicating source assumptions in Python.
+- CSV serialization handles empty values, booleans, commas, and quotes.
+- `analysis/main.py` is a pandas smoke test that reads every generated table and prints row counts.
+
+Generated tables and current row counts:
+
+- `competitions.csv`: 6
+- `events.csv`: 6
+- `athletes.csv`: 185
+- `rounds.csv`: 18
+- `event_results.csv`: 479
+- `round_results.csv`: 675
+- `boulder_problems.csv`: 103
+- `boulder_problem_results.csv`: 3,179
+
+Commands run:
+
+```sh
+pnpm export:2025-men-boulder
+pnpm test
+pnpm typecheck
+cd analysis && uv run python main.py
+```
+
+Results:
+
+- Export completed successfully.
+- Generated CSV files total about 860 KB and remain untracked.
+- The pandas smoke test loaded all eight generated tables successfully.
+- `pnpm test` passed:
+  - 14 test files passed.
+  - 71 tests passed.
+- `pnpm typecheck` passed.
+
+Next recommended step:
+
+- Start exploratory Python analysis with pandas and matplotlib.
+- Inspect missing values and relationships before modeling.
+- Define one first ML question only after exploratory analysis, such as predicting semifinal advancement from qualification performance without using qualification rank.
+
 ### Exploratory Report And Season Analysis Summaries
 
 Expanded local exploratory reporting while keeping generated outputs out of git.

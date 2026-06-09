@@ -160,5 +160,7 @@ Current rule:
 - Treat analysis code as scratch learning unless it is later promoted intentionally.
 - Keep generated report outputs in `reports/`, which is git-ignored.
 - Keep descriptive analysis separate from the future app's frontend, database, and production analytics design.
+- Use `pnpm export:2025-men-boulder` to generate git-ignored normalized CSV tables for the exploratory Python workspace.
+- Keep raw IFSC parsing and normalization in the tested TypeScript pipeline rather than duplicating it in Python.
 
 The first experiment is `experiments/2025-men-boulder-world-cup`, a fixture-backed dataset for the six 2025 IFSC World Cup Men Boulder events currently listed in the manifest.

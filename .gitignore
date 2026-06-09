@@ -3,3 +3,5 @@ dist/
 coverage/
 .DS_Store
 reports/
+analysis/.venv/
+analysis/data/generated/
