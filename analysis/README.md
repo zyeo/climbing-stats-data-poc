@@ -109,6 +109,27 @@ This gives more descriptive credit to rare tops. It is not ML, a context-free
 athlete rating, or evidence of a specific style weakness. Boulder style is not
 available in the current source data and would require careful manual labeling.
 
+## Media Review Queue
+
+Create a prioritized queue of rare-top semifinal and final boulders:
+
+```sh
+cd analysis
+uv run python media_review_candidates.py
+```
+
+The queue includes generated event context, round, a compact boulder label such as
+`M1`, source route ID, observed rates, and topper names. Human-entered replay URLs,
+timestamps, style labels, and notes live separately in:
+
+```text
+analysis/data/curated/boulder_media_reviews.csv
+```
+
+Add curated rows using `boulder_problem_id` as the stable join key. Keep generated
+result facts in the scripts and CSV exports; keep subjective media/style review in
+the curated file.
+
 ## Boundaries
 
 - Keep generated data and `.venv/` out of git.

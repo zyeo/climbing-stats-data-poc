@@ -778,6 +778,43 @@ Results:
 - The previously recorded local Rollup code-signing error still prevents
   `pnpm test` from starting.
 
+## 2026-06-10: Add Curated Boulder Media Review Queue
+
+Added:
+
+- clear `M1`, `M2`, and similar boulder labels to difficulty-relative outputs
+- descriptive review labels containing event, round, qualification group when
+  applicable, and boulder number
+- committed curated media-review schema at
+  `analysis/data/curated/boulder_media_reviews.csv`
+- `analysis/media_review_candidates.py` to prioritize rare-top semifinal and final
+  boulders and join optional human-entered replay/style metadata
+
+Generated event and result context stays reproducible in analysis code. Replay
+URLs, timestamps, style labels, movement notes, and review status remain manually
+curated and are joined using `boulder_problem_id`.
+
+Verification:
+
+```sh
+cd analysis
+uv run python difficulty_relative.py
+uv run python media_review_candidates.py
+uv run python -m py_compile difficulty_relative.py media_review_candidates.py advancement_profiles.py eda_lesson.py
+cd ..
+pnpm typecheck
+pnpm test
+```
+
+Results:
+
+- Difficulty-relative analysis completed with all 103 shared boulders represented.
+- The media-review queue produced 45 unique topped semifinal/final candidates.
+- Manual metadata join and timestamped-link construction checks passed.
+- `pnpm typecheck` passed.
+- `pnpm test` remains blocked before startup by the existing local Rollup native
+  binary code-signing error.
+
 ## 2026-06-09
 
 ### Normalized TypeScript-To-Python Export Bridge
