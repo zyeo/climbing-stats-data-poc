@@ -664,6 +664,120 @@ Results:
   - 65 tests passed.
 - `pnpm typecheck` passed.
 
+## 2026-06-09: Add Gradual Pandas EDA Lesson
+
+Added `analysis/eda_lesson.py` as a descriptive, runnable pandas walkthrough of the
+generated 2025 Men Boulder World Cup CSV tables.
+
+The lesson covers:
+
+- table shapes and inferred data types
+- missing-value interpretation
+- foreign-key and join validation
+- attempt-weighted top and zone rates
+- event, round, and qualification-group comparisons
+- descriptive athlete rank consistency
+
+The lesson explicitly pauses before ML modeling and records key interpretation
+caveats, including missing-by-design fields, Curitiba's unlabelled single
+qualification group, and the limits of rank standard deviation as a consistency
+measure.
+
+Verification:
+
+```sh
+cd analysis
+uv run python eda_lesson.py
+uv run python -m py_compile eda_lesson.py
+cd ..
+pnpm test
+pnpm typecheck
+```
+
+Results:
+
+- The pandas EDA lesson completed successfully against all eight generated tables.
+- `pnpm test` passed with 14 test files and 71 tests.
+- `pnpm typecheck` passed.
+
+## 2026-06-10: Add Advancement And Athlete Profile EDA
+
+Added `analysis/advancement_profiles.py` as the next descriptive EDA phase.
+
+The analysis:
+
+- defines advancement from actual next-round participation
+- verifies event-by-event round counts
+- describes qualification cutoffs within each event and qualification group
+- compares advancing and non-advancing qualification performance
+- shows the overlap where equal qualification top counts produced different
+  advancement outcomes
+- builds athlete profiles using advancement, event rank, and qualification-only
+  top and zone rates
+- records follow-up questions without adding ML or prediction code
+
+Qualification-only rates are used in athlete profiles to avoid directly mixing
+qualification, semifinal, and final boulders. They still require event and
+qualification-group context and should not be interpreted as context-free athlete
+ratings. Zone-to-top conversion remains missing when an athlete reached zero
+qualification zones because the `0 / 0` rate is undefined.
+
+Verification:
+
+```sh
+cd analysis
+uv run python advancement_profiles.py
+uv run python -m py_compile advancement_profiles.py eda_lesson.py
+cd ..
+pnpm typecheck
+pnpm test
+```
+
+Results:
+
+- The advancement/profile analysis completed successfully.
+- Internal checks confirmed 479 qualification athlete rows, 148 semifinalists,
+  48 finalists, and 2,395 qualification boulder-result rows.
+- `pnpm typecheck` passed.
+- `pnpm test` could not start because macOS rejected Rollup's installed native
+  binary due to a local code-signing error. No dependency reinstall or generated
+  dependency change was made.
+
+## 2026-06-10: Add Semifinal Advancement And Difficulty-Relative EDA
+
+Expanded the descriptive EDA with:
+
+- semifinal-to-final cutoff and overlap analysis
+- comparisons of zones and points among semifinalists with equal top counts
+- per-boulder observed top and zone rates
+- transparent rare-top values using `1 - field top rate`
+- qualification-only difficulty-relative athlete summaries
+- exact rare-top boulder candidates for later manual style review
+
+The difficulty-relative analysis compares athletes only against the field that
+faced the same shared boulder. It does not claim to isolate pure boulder difficulty
+from athlete-field strength, and it does not infer boulder style from result data.
+
+Verification:
+
+```sh
+cd analysis
+uv run python advancement_profiles.py
+uv run python difficulty_relative.py
+uv run python -m py_compile advancement_profiles.py difficulty_relative.py eda_lesson.py
+cd ..
+pnpm typecheck
+```
+
+Results:
+
+- Both descriptive analysis scripts completed successfully.
+- Difficulty-relative invariants confirmed one row per athlete/shared-boulder
+  combination and valid rate/value ranges between zero and one.
+- `pnpm typecheck` passed.
+- The previously recorded local Rollup code-signing error still prevents
+  `pnpm test` from starting.
+
 ## 2026-06-09
 
 ### Normalized TypeScript-To-Python Export Bridge
