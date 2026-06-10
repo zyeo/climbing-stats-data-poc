@@ -6,11 +6,28 @@ from advancement_profiles import build_round_result_view, heading
 from eda_lesson import load_tables
 
 
+def add_boulder_labels(frame: pd.DataFrame) -> pd.DataFrame:
+    """Add compact and descriptive labels while preserving the source route name."""
+    labeled = frame.copy()
+    labeled["boulder_label"] = "M" + labeled["route_name"].astype(str)
+    group = labeled["starting_group"].fillna("").str.replace("Group ", "", regex=False)
+    qualification_group = group.where(group.eq(""), " Group " + group)
+    labeled["review_label"] = (
+        labeled["location"]
+        + " | "
+        + labeled["round_name"]
+        + qualification_group.where(labeled["round_name"].eq("Qualification"), "")
+        + " | "
+        + labeled["boulder_label"]
+    )
+    return labeled
+
+
 def build_boulder_result_view(
     tables: dict[str, pd.DataFrame], round_results: pd.DataFrame
 ) -> pd.DataFrame:
     """Attach athlete, event, and round context to every athlete-boulder result."""
-    return (
+    results = (
         tables["boulder_problem_results"]
         .merge(
             tables["boulder_problems"][
@@ -37,6 +54,7 @@ def build_boulder_result_view(
             validate="many_to_one",
         )
     )
+    return add_boulder_labels(results)
 
 
 def build_boulder_difficulty(results: pd.DataFrame) -> pd.DataFrame:
@@ -47,10 +65,14 @@ def build_boulder_difficulty(results: pd.DataFrame) -> pd.DataFrame:
                 "boulder_problem_id",
                 "location",
                 "round_name",
+                "starting_group",
+                "boulder_label",
+                "review_label",
                 "source_route_id",
                 "route_name",
             ],
             as_index=False,
+            dropna=False,
         )
         .agg(
             athletes=("athlete_id", "nunique"),
@@ -84,7 +106,7 @@ def inspect_boulder_difficulty(difficulty: pd.DataFrame) -> None:
     columns = [
         "location",
         "round_name",
-        "route_name",
+        "boulder_label",
         "source_route_id",
         "athletes",
         "tops",
@@ -106,7 +128,7 @@ def inspect_rare_tops(valued_results: pd.DataFrame) -> None:
         "country",
         "location",
         "round_name",
-        "route_name",
+        "boulder_label",
         "source_route_id",
         "field_tops",
         "athletes",
@@ -171,7 +193,9 @@ def inspect_manual_review_candidates(valued_results: pd.DataFrame) -> None:
                 "boulder_problem_id",
                 "location",
                 "round_name",
-                "route_name",
+                "starting_group",
+                "boulder_label",
+                "review_label",
                 "source_route_id",
                 "athletes",
                 "field_tops",
@@ -179,6 +203,7 @@ def inspect_manual_review_candidates(valued_results: pd.DataFrame) -> None:
                 "zone_rate",
             ],
             as_index=False,
+            dropna=False,
         )
         .agg(
             topper_names=("name", lambda names: ", ".join(sorted(names))),
@@ -190,7 +215,7 @@ def inspect_manual_review_candidates(valued_results: pd.DataFrame) -> None:
     columns = [
         "location",
         "round_name",
-        "route_name",
+        "boulder_label",
         "source_route_id",
         "athletes",
         "field_tops",
