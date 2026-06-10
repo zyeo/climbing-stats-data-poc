@@ -4,4 +4,5 @@ coverage/
 .DS_Store
 reports/
 analysis/.venv/
+analysis/__pycache__/
 analysis/data/generated/
